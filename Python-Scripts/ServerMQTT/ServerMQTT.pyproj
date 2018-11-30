@@ -24,7 +24,11 @@
     <Compile Include="ClientController.py">
       <SubType>Code</SubType>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="DeviceController.py">
+=======
+    <Compile Include="DeviceInterface.py">
+>>>>>>> master
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="module1.py">
