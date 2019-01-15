@@ -16,7 +16,7 @@ def objectPassing():
     objects = ["object1", "object2", "object3"]
     return render_template("objectList.html", objects = objects)
 
-@app.route("/prototype")
+@app.route("/index")
 def reactHTML():
     return render_template("index.html")
 
