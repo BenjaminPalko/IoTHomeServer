@@ -1,0 +1,17 @@
+.contentPane {
+    margin: 1rem;
+    background: white;
+}
+
+.headerlayout {
+    display: flex;
+    align-items: center;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.title {
+    margin-top: 5px;
+}
