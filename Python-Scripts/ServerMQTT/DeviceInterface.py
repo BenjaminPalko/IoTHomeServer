@@ -1,7 +1,11 @@
-import requests
+from flask import Flask
+app = Flask(__name__)
 
-url = '108.162.170.2'
 
-response = requests.get(url)
+@app.route("/")
+def hello():
+    return "Hello World!"
 
-print(response)
+
+if __name__ == '__main__':
+    app.run()
