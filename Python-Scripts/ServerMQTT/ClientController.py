@@ -4,6 +4,8 @@ import paho.mqtt.client as mqtt
 
 idleclients = {}
 activeclients = {}
+topics = {}
+
 
 # Passed to client as default 'on_connect' function
 def on_connect(client, userdata, flags, rc):
@@ -14,6 +16,7 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     if msg.topics in topics:
         print(msg.topic + " " + str(msg.payload))
+
 
 def create_client(name, topics, address='192.168.1.215'):
     """ Create client given
@@ -27,16 +30,17 @@ def create_client(name, topics, address='192.168.1.215'):
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
-    
-    for topic in topics:
-        client.subscribe(topic)
 
     try:
         client.connect(address, 1883, 60)
         idleclients[name] = client
+        for topic in topics:
+            client.subscribe(topic)
+            topics.add(topic)
         return 0
     except:
         return -1
+
 
 def get_client(name):
     """ Retrieve client by name
@@ -50,7 +54,6 @@ def get_client(name):
             return activeclients[name]
     except:
         return -1
-
 
 
 # Start up selected client
@@ -68,6 +71,7 @@ def start_client(name):
     except:
         return False # Client is either already running or doesn't exist
 
+
 def stop_client(name):
     """ Stop client loop
     INPUT:
@@ -82,6 +86,7 @@ def stop_client(name):
     except:
         return False # Client is either already stopped or doesn't exist
 
+
 def subscribe_client(name, topic):
     """ Subscribe Client to topic
     INPUT:
@@ -93,6 +98,7 @@ def subscribe_client(name, topic):
         client.subscribe(topic)
         return True
     return False
+
 
 def publish_client(name, topic, msg):
     """ Publish to topic through given client

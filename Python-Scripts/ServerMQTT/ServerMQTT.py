@@ -1,14 +1,15 @@
 import sys
-import logging as Logger
+# import logging as Logger
 import ClientController
 
 # Helper variables, functions & logging
-main_commands = [ 'client', 'exit' ]
+main_commands = ['client', 'exit']
+
 
 def client_loop():
     client_commands = [ 'list', 'create', 'start', 'stop', 'publish' ]
     print('\nClient Interface --Help')
-    while(True):
+    while True:
         command = input('>>')
 
         if command == '':
@@ -44,14 +45,14 @@ def client_loop():
             if ClientController.start_client(name):
                 print(name + ' started...')
             else:
-                print('Error occured!')
+                print('Error occurred!')
         # Stop running client
         elif command.lower() == 'stop':
             name = input('Client ID:')
             if ClientController.stop_client(name):
                 print(name + ' stopped...')
             else:
-                print('Error occured!')
+                print('Error occurred!')
         # Publish using given client
         elif command.lower() == 'publish':
             name = input('Client ID:')
@@ -68,9 +69,10 @@ def client_loop():
         else:
             print("Command '" + command + "' not recognized")    
 
+
 # Program start
 print('Server Interface Started --Help')
-while(True):
+while True:
     command = input('>>')
 
     # Parse input
