@@ -14,13 +14,12 @@ def on_connect(client, userdata, flags, rc):
 # Passed to client as default 'on_message' function
 def on_message(client, userdata, msg):
     print(msg.topic + " " + str(msg.payload))
-    if msg.topic is "/requestconnection/":
-        json_object = json.loads(msg.payload)
-    elif msg.
+
 
 client = mqttclient.Client()
 client.on_connect = on_connect
 client.on_message = on_message
+client.connect("192.168.1.3", 1883, 60)
 client.subscribe("#", 0)
 
 
