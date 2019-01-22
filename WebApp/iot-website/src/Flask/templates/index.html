@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html>
+
 <body>
 
-<h1 id="ledBulb">LED BULB</h1>
+<!-- <h1 id="ledBulb">LED BULB</h1>
 
-<h2>RED</h2>
-<button type="button" onclick="changeLight('red')">Turn Red On</button>
-
-<h2>GREEN</h2>
-<button type="button" onclick="changeLight('green')">Turn Green On</button>
-
-<h2>BLUE</h2>
-<button type="button" onclick="changeLight('blue')">Turn Blue On</button>
+<form action="/index" method="POST">
+  <button name="red_on_button" type="submit">Turn Red On</button>
+</form>
 
 <h2>Turn Off</h2>
 <button type="button" onclick="changeLight('lightgrey')">Turn Off</button>
- 
+  -->
+<a href="/red"><input type="button" value="RED ON"></a>
+<a href="/blue"><input type="button" value="BLUE ON"></a>
+<a href="/green"><input type="button" value="GREEN ON"></a>
+<a href="/off"><input type="button" value="TURN OFF"></a>
+
+
 <script>
   function changeLight(color) {
     document.getElementById('ledBulb').style.color = color;
