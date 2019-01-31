@@ -2,32 +2,45 @@ import paho.mqtt.client as mqttclient
 import json as json
 import time
 import sqlite3 as sqlite
-device_db = sqlite.connect('devices.db')
+from sqlite3 import Error
+
+
+def create_database_connection():
+    try:
+        conn = sqlite.connect('devices.db')
+        return conn
+    except Error as e:
+        print(e)
+        return None
 
 
 # Passed to client as default 'on_connect' function
 def on_connect(client, userdata, flags, rc):
+    device_db = create_database_connection()
+    c = device_db.cursor()
+    c.execute("CREATE TABLE IF NOT EXISTS devices (id Integer, type Text, topic Text)")
     print("Connected with result code: " + str(rc))
-    device_db.execute("CREATE TABLE IF NOT EXISTS devices (id Integer, type Text, topic Text)")
+    device_db.close()
 
 
 # Passed to client as default 'on_message' function
 def on_message(client, userdata, msg):
-    print(msg.topic + " " + str(msg.payload) + "\n")
+    # print(msg.topic + " " + str(msg.payload) + "\n")
     if msg.topic == "connection/request":
         print("Request Connection Received")
-        c = device_db.cursor()
         json_object = json.loads(msg.payload)
         print("Type: " + json_object["type"])
-        if json_object["type"] == "ledrgb":
-            new_topic = "device/led/rgb/1"
-            c.execute('INSERT INTO devices VALUES (?, ?, ?)', json_object["id"], json_object["type"], new_topic)
+        if json_object["type"] == "LED":
+            # new_topic = "device/rgbled/1"
+            # new_topic = "test/led"
+            new_topic = create_device(json_object["id"], json_object["type"])
             new_json = {
                 "id": json_object["id"],
                 "ack": True,
                 "topic": new_topic
             }
         new_msg = json.dumps(new_json)
+        print("Sending response: " + new_msg)
         client.publish("connection/response", new_msg)
 
 
@@ -47,39 +60,33 @@ client.on_connect = on_connect
 client.on_message = on_message
 
 
-# Handles device types
-def device_handler(device, input, data):
-    """
+def create_device(deviceid, type):
+    device_db = create_database_connection()
+    c = device_db.cursor()
+    c.execute('SELECT topic FROM devices WHERE id = ?', (deviceid,))
+    topic = c.fetchone()
+    if topic is not None:
+        return topic
+    c.execute("SELECT COUNT(*) FROM devices WHERE type = ?", (type,))
 
-    :param device: device name
-    :param input: boolean
-    :param data: data to transfer
-    :return:
-    """
-    if input is True:
-        # Send to device method
-        update_field(device, data)
+    # Create new topic based on number of other devices that share the type
+    rowcount = c.fetchone()[0]
+    print("Rowcount: " + str(rowcount))
+    if rowcount == -1:
+        new_device_num = 1
     else:
-        publish_device(device, data)
-
-
-# Create new field
-def create_field(field, type):
-    """
-
-    :param field:
-    :param type:
-    :return:
-    """
-    return field
+        new_device_num = rowcount + 1
+    new_topic = "devices/" + str(type) + "/" + str(new_device_num)
+    c.execute('INSERT INTO devices (id, type, topic) VALUES (?, ?, ?)', (int(deviceid), str(type), str(new_topic)))
+    print(new_topic)
+    device_db.close()
+    return new_topic
 
 
 # Publishes to device topic
-def publish_device(topic, msg):
-    pub = client.publish(topic, msg)
-    if pub.rc != "MQTT_ERR_SUCCESS":
-        return
-
-
-def update_field(field, data):
-    return True
+def publish_device(deviceid, msg):
+    device_db = create_database_connection()
+    c = device_db.cursor()
+    topic = c.execute("SELECT topic FROM devices WHERE id = ?", deviceid).fetchone()
+    device_db.close()
+    client.publish(topic, msg)
