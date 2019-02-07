@@ -12,7 +12,6 @@ def redon():
 # def redon():
 #     red_on()
 #     return render_template("index.html")
-
 @app.route('/<led_setting>')
 def testing(led_setting):
     if led_setting == "red":
