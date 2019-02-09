@@ -1,0 +1,40 @@
+.navbar-default {
+    background-image: none;
+    border: none;
+    border-radius: 0;
+}
+
+.navbar-brand {
+    margin-left: 0.5rem;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-brand>img {
+    width: 50px
+}
+
+@keyframes float {
+    0% {
+        transform: translatey(2px);
+    }
+    50% {
+        transform: translatey(-3px);
+    }
+    100% {
+        transform: translatey(2px);
+    }
+}
+
+.logo_image {
+    height: 30px;
+    animation: float 4s ease-in-out infinite;
+}
+
+  
