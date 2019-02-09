@@ -25,7 +25,7 @@ def on_message(client, userdata, msg):
         if command == "red":
             rgbled_control(255, 0, 0)
         elif command == "green":
-            rgbled_control(0, 255, )
+            rgbled_control(0, 255, 0)
         elif command == "blue":
             rgbled_control(0, 0, 255)
         elif command == "off":
