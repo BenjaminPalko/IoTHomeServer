@@ -9,6 +9,7 @@ export default class About extends Component {
                 <div className="headerlayout">
                     <div className="spacer">
                         <h2 className="title">About </h2>
+                        <p>My Token connection: {window.token}</p>
                         <p>The goal of this project is the research and development into current and future applications of IoT technology. 
                         Over the course of the Fall Semester we have researched current technologies and software used in IoT. We have 
                         considered various options and have mitigated our list then decided on the most appropriate task. </p>

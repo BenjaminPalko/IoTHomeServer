@@ -9,6 +9,7 @@ export default class Devices extends Component {
             <Container className="contentPane">
                 <div className="headerlayout">
                     <h2 className="title">Devices </h2>
+                    <p>My Token connection: {window.token}</p>
                     <div className="spacer"></div>
                     <AddDeviceInput/>
                 

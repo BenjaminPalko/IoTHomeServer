@@ -11,6 +11,7 @@ export default class Home extends Component {
                     <Jumbotron>
                         <h2>Welcome to IoT Web Controller</h2>
                         <p>The Website is in Development.</p>
+                        <p>My Token connection: {window.token}</p>
                     </Jumbotron>
                     <div>
                         <h2>Development Testing Area</h2>
