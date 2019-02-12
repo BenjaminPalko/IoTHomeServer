@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-
 import {Jumbotron, Container, ListGroup, Button} from 'react-bootstrap'
 import './Home.css'
+import DeviceType_LED from '../Devices/DeviceType/DeviceType_LED';
 
 export default class Home extends Component {
     render() {
@@ -30,7 +30,7 @@ export default class Home extends Component {
                                 </Button>
                                 Temperature
                             </ListGroup.Item>
-                            <ListGroup.Item></ListGroup.Item>
+                            <ListGroup.Item><DeviceType_LED/></ListGroup.Item>
                             <ListGroup.Item></ListGroup.Item>
                         </ListGroup>
                     </div>
