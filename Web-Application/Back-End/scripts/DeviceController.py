@@ -1,4 +1,5 @@
 import paho.mqtt.client as mqttclient
+import docker
 import json as json
 import time
 
@@ -53,3 +54,4 @@ def start_client_loop():
 client = mqttclient.Client()
 client.on_connect = on_connect
 client.on_message = on_message
+start_client_loop()
