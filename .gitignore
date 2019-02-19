@@ -5,4 +5,8 @@ Documentation/~\$quirements\.docx
 
 Documentation/~WRL0413\.tmp
 
-Python-Scripts/\.idea/
+Web-Application/\.idea/
+
+Web-Application/Back_End/__pycache__
+
+Web-Application/Back_End/scripts/__pycache__/
