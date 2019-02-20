@@ -21,12 +21,13 @@ class Device(Base):
         self.client = mqtt.Client()
         self.client.connect(self.server_ip, self.server_port, self.keep_alive)
         self.topic = topic
-        self.client.subscribe(topic)
 
         def on_message(client, userdata, msg):
             print("Received on topic: " + msg.topic + "\nWith message: " + str(msg.payload, "utf-8"))
+            pass
 
         def on_connect(client, userdata, flags, rc):
+            self.client.subscribe(self.topic)
             print("Returned with return: " + rc)
 
         self.client.on_message = on_message
@@ -46,15 +47,13 @@ class RGBLED(Device):
 
 
 class Temperature(Device):
+
+    temperature = None
+
     def __init__(self, id, topic, type):
         def on_message(client, userdata, msg):
             json_object = json.loads(str(msg.payload, 'utf-8'))
-            #if Flask.check_if_element_exists(json_object['id']):
-            #    Flask.temp_update(json_object['id'], json_object['temperature'])
-            #else:
-            #    Flask.new_element('temperature', json_object['id'])
-            #    Flask.temp_update(json_object['id'])
-            pass
+            self.temperature = json_object['temperature']
         super().__init__(id, topic, type)
         super().client.on_message = on_message
 

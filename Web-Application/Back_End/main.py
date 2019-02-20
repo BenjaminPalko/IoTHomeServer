@@ -1,12 +1,12 @@
 from flask import Flask, render_template, flash, request, url_for
-from scripts.devices import RGBLED
+import scripts.devices as devices
 
 # Flask app constructor
 app = Flask("__main__", template_folder="templates")
 app.secret_key = 'iotSecretKey'
 
 # Devices
-rgbled = RGBLED(42, "nodemcu/rgbled", 'rgbled')
+rgbled = devices.RGBLED(42, "nodemcu/rgbled", 'rgbled')
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -52,6 +52,7 @@ def my_devices():
 
 def new_element(type, id):
     pass    # Fill out function
+
 
 def check_if_element_exists(id):
     pass    # Fill out function
