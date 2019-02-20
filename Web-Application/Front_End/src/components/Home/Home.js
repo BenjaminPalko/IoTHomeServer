@@ -2,37 +2,11 @@ import React, {Component} from 'react'
 import {Jumbotron, Container, ListGroup, Button} from 'react-bootstrap'
 import './Home.css'
 import DeviceType_LED from '../Devices/DeviceType/DeviceType_LED';
+import DeviceType_Temperature from '../Devices/DeviceType/DeviceType_Temperature';
 
 export default class Home extends Component {
-   
-//    Testing purposes for api calling
-    constructor(props) {
-        super(props);
-        this.state = {
-            items: [],
-            isLoaded: false,
-        }
-      }
-    
-      componentDidMount() {
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then(res => res.json())
-            .then(json => {
-                this.setState({
-                    isLoaded: true,
-                    items: json,
-                })
-            });
-      }
 
     render() {
-
-        var {isLoaded, items} = this.state;
-
-    if(!isLoaded){
-        return <div>Loading...</div>
-    }
-    else {
         return (
             <div>
                 <Container>
@@ -49,6 +23,7 @@ export default class Home extends Component {
                                     Submit
                                 </Button>
                                 Temperature
+                                {/* <DeviceType_Temperature/> */}
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <DeviceType_LED/> 
@@ -58,17 +33,8 @@ export default class Home extends Component {
                             <ListGroup.Item></ListGroup.Item>
                         </ListGroup>
                     </div>
-                    <div>
-                        <ul>
-                        {items.map(item => (
-                            <li key={item.id}>
-                            Name: {item.name} | Email: {item.email}
-                            </li>
-                        ))};
-                        </ul>
-                    </div>
                 </Container>
             </div>
         )
-    }}
+    }
 }   

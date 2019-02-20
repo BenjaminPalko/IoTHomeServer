@@ -21,6 +21,9 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -46,5 +49,28 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <!-- TESTING SOCKET - make sure to implement this into a component instead-->
+    <script type="text/javascript">
+      $(document).ready(function() {
+          var socket = io.connect('http://127.0.0.1:5000');
+          socket.on('connect', function() {
+              socket.send('User has connected!');
+          });
+
+          socket.on('message', function(msg) {
+              $("#messages").append('<li>'+msg+'</li>');
+              console.log('Received message');
+          });
+
+          $('#sendbutton').on('click', function() {
+              socket.send($('#myMessage').val());
+              $('#myMessage').val(''); // clears out the msg for new
+          });
+      });
+      </script>
+      <ul id="messages"></ul>
+      <input type="text" id="myMessage">
+      <button id="sendbutton">Send</button>
   </body>
 </html>
