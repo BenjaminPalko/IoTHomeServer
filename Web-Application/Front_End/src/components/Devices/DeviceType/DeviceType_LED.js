@@ -9,8 +9,8 @@ const devicetype_led = (object) => {
                 <Button type="submit" name="ledSwitch" variant="danger" value="red">
                     Red
                 </Button>
-                <Button type="submit" name="ledSwitch" variant="warning" value="yellow">
-                    Yellow
+                <Button type="submit" name="ledSwitch" variant="success" value="green">
+                    Green
                 </Button>
                 <Button type="submit" name="ledSwitch" variant="primary" value="blue">
                     Blue
