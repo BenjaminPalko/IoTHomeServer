@@ -7,17 +7,18 @@ import Devices from './components/Devices/Devices';
 import Navbar from './components/CustomNavbar/CustomNavbar';
 
 class App extends Component {
+
   render() {
-    return (
-      <Router>
-        <div>
-          <Navbar/>
-          <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
-          <Route path="/devices" component={Devices} />
-        </div>
-      </Router>
-    );
+      return (
+        <Router>
+          <div>
+            <Navbar/>
+            <Route exact path="/" component={Home} />
+            <Route path="/about" component={About} />
+            <Route path="/devices" component={Devices} />
+          </div>
+        </Router>
+      );
   }
 }
 

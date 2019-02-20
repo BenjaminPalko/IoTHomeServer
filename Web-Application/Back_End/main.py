@@ -10,27 +10,28 @@ rgbled = RGBLED(42, "nodemcu/rgbled", 'rgbled')
 
 
 @app.route("/", methods=['GET', 'POST'])
-def dev_test():
-    error = 'error testing'
+def dev_LEDtest():
+    error = 'Select led light to test'
     try:
         if request.method == 'POST':
-            submit_attempt = request.form['passwordName']
-            # submit_color_red = request.form['red-led']
-            # submit_color_blue = request.form['blue-led']
-            # submit_color_green = request.form['green-led']
-            # submit_color_off = request.form['off-led']
-            # request.
-            # if submit_color_blue
-            if submit_attempt == "red":
+            ledRequestSubmit = request.form['ledSwitch']
+
+            if ledRequestSubmit == "red":
                 rgbled.update_state(255, 0, 0)
-                return render_template("index.html", token="Flask+React Connect Success: Home", error="GOOD")
-            if submit_attempt == "green":
+                error = 'RED'
+                return render_template("index.html", token="Red", error=error)
+            if ledRequestSubmit == "yellow":
                 rgbled.update_state(0, 255, 0)
-                return render_template("index.html", token="Flask+React Connect Success: Home", error="GOOD")
-            if submit_attempt == "blue":
+                error = 'Yellow'
+                return render_template("index.html", token="Yellow", error=error)
+            if ledRequestSubmit == "blue":
                 rgbled.update_state(0, 0, 255)
-                return render_template("index.html", token="Flask+React Connect Success: Home", error="GOOD")
-            
+                error = 'Blue'
+                return render_template("index.html", token="Blue", error=error)
+            if ledRequestSubmit == "off":
+                rgbled.update_state(0, 0, 0)
+                error = 'Off'
+                return render_template("index.html", token="Off", error=error)
             else:
                 error = "Invalid"
         return render_template("index.html", token="Flask+React Connect Success: Home", error=error)
