@@ -2,6 +2,9 @@ import paho.mqtt.client as mqtt
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 import json
+import time
+import _thread as thread
+import scripts.api_handler as api_handler
 
 Base = declarative_base()
 
@@ -27,11 +30,12 @@ class Device(Base):
             pass
 
         def on_connect(client, userdata, flags, rc):
-            self.client.subscribe(self.topic)
+
             print("Returned with return: " + rc)
 
         self.client.on_message = on_message
         self.client.on_connect = on_connect
+        self.client.subscribe(self.topic)
         self.client.loop_start()
 
     def publish(self, msg):
@@ -55,14 +59,17 @@ class Temperature(Device):
             json_object = json.loads(str(msg.payload, 'utf-8'))
             self.temperature = json_object['temperature']
         super().__init__(id, topic, type)
-        super().client.on_message = on_message
+        self.client.on_message = on_message
 
 
 class LCDDisplay(Device):
-    def __init__(self, topic):
-        super.__init__(topic)
 
-        def on_message(client, userdata, msg):
-            pass
+    loop = True
 
-        super().client.on_message = on_message
+    def start_loop(self, location, delay):
+        def update_loop(location, delay):
+            while self.loop:
+                data = api_handler.retrieve_weather(location)
+                self.publish(data)
+                time.sleep(delay)
+        thread.start_new_thread(update_loop, (location, delay))

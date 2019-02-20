@@ -23,4 +23,4 @@ def retrieve_weather(location):
     args = str(geocode['lat']) + ',' + str(geocode['lng']) + '?units=si'
     response = urlresponse.urlopen(weather_api + args)
     data = response.read().decode('utf-8')
-    return json.loads(data)
+    return data

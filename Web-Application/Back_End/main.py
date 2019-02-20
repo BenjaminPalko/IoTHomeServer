@@ -7,7 +7,9 @@ app.secret_key = 'iotSecretKey'
 
 # Devices
 rgbled = devices.RGBLED(42, "nodemcu/rgbled", 'rgbled')
-
+lcddisplay = devices.LCDDisplay(52, "nodemcu/weather", 'lcddisplay')
+lcddisplay.start_loop('New York', 10)
+temperate = devices.Temperature(12, 'nodemcu/temp', 'temperature')
 
 @app.route("/", methods=['GET', 'POST'])
 def dev_LEDtest():
