@@ -28,7 +28,6 @@ export default class Home extends Component {
                             <ListGroup.Item>
                                 <DeviceType_LED/> 
                                 LED Light Toggles
-                                <p>My Token connection: {window.token}</p>
                             </ListGroup.Item>
                             <ListGroup.Item></ListGroup.Item>
                         </ListGroup>

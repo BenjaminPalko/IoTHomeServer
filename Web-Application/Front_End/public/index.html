@@ -63,10 +63,11 @@
               console.log('Received message');
           });
 
-          $('#sendbutton').on('click', function() {
+          //setInterface is cheating
+          $('#sendbutton').on('click', setInterval(function() {
               socket.send($('#myMessage').val());
               $('#myMessage').val(''); // clears out the msg for new
-          });
+          }, 2000));
       });
       </script>
       <ul id="messages"></ul>

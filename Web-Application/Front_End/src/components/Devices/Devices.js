@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Container, ListGroup} from 'react-bootstrap'
 import AddDeviceInput from './AddDeviceInput/AddDeviceInput';
+import DeviceType_LED from './DeviceType/DeviceType_LED';
 import './Devices.css'
 
 export default class Devices extends Component {
@@ -9,14 +10,13 @@ export default class Devices extends Component {
             <Container className="contentPane">
                 <div className="headerlayout">
                     <h2 className="title">Devices </h2>
-                    <p>My Token connection: {window.token}</p>
                     <div className="spacer"></div>
                     <AddDeviceInput/>
                 
                 </div>
                 <Container className="contentList">
                     <ListGroup>
-                    <ListGroup.Item>LED 1</ListGroup.Item>
+                    <ListGroup.Item><DeviceType_LED/></ListGroup.Item>
                     <ListGroup.Item>LED 2</ListGroup.Item>
                     <ListGroup.Item>Temperature 1</ListGroup.Item>
                     <ListGroup.Item>Temperature 2</ListGroup.Item>
