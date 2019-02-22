@@ -41,7 +41,7 @@ class AddDeviceInput extends React.Component {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              ADD DEVICE CONTENT
+              ADD DEVICE CONTENT - Not Yet Implemented
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={this.handleHide}>Close</Button>
