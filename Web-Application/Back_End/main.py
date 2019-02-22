@@ -10,6 +10,7 @@ socketio = SocketIO(app)
 
 # Device Setup - Might not need this here anymore 
 # since theyre assigned in helper.py
+# need to test it out
 rgbled = RGBLED(42, "nodemcu/rgbled", 'rgbled')
 temperature = Temperature(43, "nodemcu/temp", 'temp')
 
@@ -35,6 +36,13 @@ def my_about():
 @app.route("/devices")
 def my_devices():
     return render_template("index.html", token="Flask+React Connect Success: Devices")
+
+# Login Page
+@app.route("/login/", methods=['GET', 'POST'])
+def my_login():
+    return render_template("index.html")
+
+# Socket Connections Below
 
 # Temperature Testing
 @socketio.on('message')
