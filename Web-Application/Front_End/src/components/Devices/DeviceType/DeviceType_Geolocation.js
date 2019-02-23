@@ -9,7 +9,7 @@ const devicetype_geolocation = (object) => {
                 <Form.Group controlId="exampleForm.ControlTextarea1">
                 <Form.Row>
                     <Col>
-                        <Form.Control type="text" placeholder="Example: Ottawa" />
+                        <Form.Control type="text" name="cityName" placeholder="Example: Ottawa" />
                     </Col>
                     <Col>
                         <Button variant="primary" type="submit">

@@ -15,10 +15,10 @@ import Doorlock_Input from '../Doorlock_Privilege/Doorlock_Input';
 const devicetype_doorlock = (object) => {
     return (
         <div>
-            <Form>
+            <Form method="POST">
                 <Form.Row>
                     <Col>
-                        <Form.Control type="text" name="pin" pattern="[1-3]{4}" maxlength="4" placeholder="Set Pin Code" />
+                        <Form.Control type="text" name="pinCombo" pattern="[1-3]{4}" maxlength="4" placeholder="Set Pin Code" />
                     </Col>
                     <Col>
                         <Button variant="primary" type="submit">
