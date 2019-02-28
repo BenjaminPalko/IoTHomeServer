@@ -32,6 +32,11 @@ def ledCheck(ledRequestSubmit):
     print('===========================\n')
     return output
 
+def ledHexCheck(ledRequestSubmit):
+    print('===========================')
+    print('The LED is set to: ' + ledRequestSubmit)
+    print('===========================\n')
+
 # Temperature Device Methods
 # update_temp: Checks if the browser needs to update and display the new temperature. Temperature reading, update if changed.
 # @input

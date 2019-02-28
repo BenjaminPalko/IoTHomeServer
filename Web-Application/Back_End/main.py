@@ -1,18 +1,22 @@
 from flask import Flask, render_template, flash, request, url_for
-from flask_socketio import SocketIO, send
+from flask_socketio import SocketIO
+from flask_mqtt import Mqtt
 from scripts.devices import RGBLED, Temperature
-from helper import update_temp, ledCheck, doorLockCheck, geoLocationCheck
+from helper import update_temp, ledCheck, doorLockCheck, geoLocationCheck, ledHexCheck
+import json
+
 
 # Flask app constructor
-app = Flask("__main__", template_folder="templates")
-app.secret_key = 'iotSecretKey'
+app = Flask(__name__, template_folder="templates")
+app.config.update(
+    SECRET_KEY='iotSecret_key',
+    MQTT_BROKER_URL='3.84.42.130',
+    MQTT_BROKER_PORt=1883,
+    MQTT_KEEPALIVE=60
+)
 socketio = SocketIO(app)
-
-# Device Setup - Might not need this here anymore 
-# since theyre assigned in helper.py
-# need to test it out
-# rgbled = RGBLED(42, "nodemcu/rgbled", 'rgbled')
-temperature = Temperature(43, "nodemcu/temp", 'temp')
+mqtt = Mqtt(app)
+mqtt.subscribe('nodemcu/temp')
 
 # Home Page
 @app.route("/")
@@ -28,7 +32,8 @@ def dev_DevicesTest():
         if request.method == 'POST':
             if 'ledSwitch' in request.form:
                 ledRequestSubmit = request.form['ledSwitch']
-                ledCheck(ledRequestSubmit)
+                # ledCheck(ledRequestSubmit)
+                ledHexCheck(ledRequestSubmit)
             elif 'pinCombo' in request.form:
                 pinComboSubmit = request.form['pinCombo']
                 doorLockCheck(pinComboSubmit)
@@ -44,11 +49,6 @@ def dev_DevicesTest():
 def my_about():
     return render_template("index.html", token="Flask+React Connect Success: About")
 
-# # Devices Page
-# @app.route("/devices")
-# def my_devices():
-#     return render_template("index.html", token="Flask+React Connect Success: Devices")
-
 # Login Page
 @app.route("/login/", methods=['GET', 'POST'])
 def my_login():
@@ -56,13 +56,13 @@ def my_login():
 
 # Socket Connections Below
 
-# Temperature Testing
-@socketio.on('message')
-def handleMessage(msg):
-    print('Message: ' + msg)
-    # send(msg, broadcast=True) #broadcast sends to all other clients
-    update_temp(0, temperature)
+# New Temperature Connection
+@mqtt.on_topic('nodemcu/temp')
+def update_temperature(client, userdata, message):
+    temp = json.loads(message.payload.decode())['temperature']
+    socketio.emit('Temperature', str(round(temp, 1)))
 
 # Start App
 # app.run(debug=True) Socketio.run replaces this to allow real time comm.
-socketio.run(app, debug=True)
+if __name__ == "__main__":
+    socketio.run(app, debug=True)

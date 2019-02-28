@@ -5,7 +5,13 @@ import './DeviceType_LED.css';
 const devicetype_led = (object) => {
     return (
         <div>
+            
             <Form method="POST">
+                <input id="colorpicker" name="ledSwitch" type="color"/>
+                <Button className="button" type="submit" variant="primary">Submit</Button>
+            </Form>
+
+            {/* <Form method="POST">
                 <ButtonToolbar>
                     <Button className="button" type="submit" name="ledSwitch" variant="danger" value="red">
                         Red
@@ -20,7 +26,7 @@ const devicetype_led = (object) => {
                         Off
                     </Button>
                 </ButtonToolbar>
-            </Form>
+            </Form> */}
         </div>
     )
 };
