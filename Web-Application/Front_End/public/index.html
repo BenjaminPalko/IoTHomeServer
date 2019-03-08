@@ -8,11 +8,13 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="theme-color" content="#000000" />
+
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- REACT BOOTSTRAP -->
     <link
@@ -55,32 +57,181 @@
     
     <!-- TESTING SOCKET - make sure to implement this into a component instead-->
     <!---->
-    <form onsubmit="forecast_submit(this); return false">
-        <input type="text" name="forecast" placeholder="City, Province/Country" />
-    </form>
-    <form onsubmit="pin_submit(this); return false">
-        <input type="text" name="pinCombo" pattern="[1-3]{4}" maxlength="4" placeholder="Set Pin Code" />
-    </form>
-    <form>
-        <input id="colorpicker" name="ledSwitch" type="color" onChange={led_change(this.value)}>
-    </form>
+    
+    <div class="container" >
+        <div class="row text-center">
+
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card h-100">
+                <img style="width: 50%; align-self: center" class="card-img-top" src="/static/led-lamp.png" alt="">
+                <div class="card-body">
+                  <h3 class="card-title">LED Light</h3>  
+                  <form>
+                    <input id="colorpicker" name="ledSwitch" type="color" onChange={led_change(this.value)}>
+                    <h5>Select a Custom color</h5>
+                  </form>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                      Find Out More!
+                    </button>
+                </div>
+              </div>
+            </div>
+      
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card h-100">
+                <img style="width: 50%; align-self: center" class="card-img-top" src="/static/thermometer.png" alt="">
+                <div class="card-body">
+                    <h3 class="card-title">Temperature Sensor</h3>
+                    <h2 style="background-color: rgba(218, 213, 213, 0.788)" id="Temperature">NULL
+                    </h2>  
+                </div>
+                <div class="card-footer">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">
+                    Find Out More!
+                  </button>
+                </div>
+              </div>
+            </div>
+      
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card h-100">
+                <img style="width: 50%; align-self: center" class="card-img-top" src="static/rain.png" alt="">
+                <div class="card-body">
+                    <h3 class="card-title">Weather Forecast</h3>
+                    <form onsubmit="forecast_submit(this); return false">
+                        <input type="text" name="forecast" placeholder="City, Province/Country" />
+                    </form>
+                </div>
+                <div class="card-footer">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">
+                    Find Out More!
+                  </button>
+                </div>
+              </div>
+            </div>
+      
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card h-100">
+                <img style="width: 50%; align-self: center" class="card-img-top" src="static/shield.png" alt="">
+                <div class="card-body">
+                    <h3 class="card-title">Pin Lock Security Combo</h3>
+                    <form onsubmit="pin_submit(this); return false">
+                        <input type="text" name="pinCombo" pattern="[1-3]{4}" maxlength="4" placeholder="Set Pin Code" />
+                    </form>
+                </div>
+                <div class="card-footer">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4">
+                    Find Out More!
+                  </button>
+                </div>
+              </div>
+            </div>
+      
+          </div>
+          <!-- /.row -->
+      
+        </div>
+        <!-- /.container -->
+      
+        <!-- Footer -->
+        <footer class="py-5 bg-dark">
+          <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; IoT Web 2019</p>
+          </div>
+          <!-- /.container -->
+        </footer>
+
+        <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">LED Light</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Select a color in the color picker. Once you press enter, the LED should change.
+                <br/>
+                Example/ Choosing Black #000000
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Temperature</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Weather Forecase</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Pin Lock Security Combo</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      ...
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
     <script type="text/javascript">
       const socket = io.connect('localhost:5000');
       socket.on('connect', function() {
         socket.emit('my event', {data: 'I\'m connected!'});
       });
 
-      <!-- Inputs -->
       socket.on('temperature', function(data){update_temperature(data)});
       function update_temperature(temperature)
       {
         document.getElementById('Temperature').innerText = temperature;
       }
 
-      <!-- Outputs -->
       function led_change(value)
       {
           socket.emit('rgbled_hex', value);
+          document.getElementById('colorpicker').value = value;
       }
 
       function pin_submit(form)
@@ -98,5 +249,8 @@
 
       }
     </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>

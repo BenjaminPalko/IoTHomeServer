@@ -73,36 +73,6 @@ security_pin = 1232
 def my_home():
     return render_template("index.html")
 
-'''
-@app.route("/devices", methods=['GET', 'POST'])
-@app.route("/", methods=['GET', 'POST'])
-def dev_DevicesTest():
-    #LED Testing
-    output = 'Select led light to test'
-    try:
-        if request.method == 'POST':
-            if 'ledSwitch' in request.form:
-                ledRequestSubmit = request.form['ledSwitch']
-                # ledCheck(ledRequestSubmit)
-                ledHexCheck(ledRequestSubmit)
-            elif 'pinCombo' in request.form:
-                pinComboSubmit = request.form['pinCombo']
-                doorLockCheck(pinComboSubmit)
-            elif 'cityName' in request.form:
-                cityNameSubmit = request.form['cityName']
-                geoLocationCheck(cityNameSubmit)
-        return render_template("index.html", token="Requires a Valid Input", error=output)
-    except Exception as e:
-        return render_template("index.html", token="Error", error=e)
-'''
-
-
-# About Page
-@app.route("/about")
-def my_about():
-    return render_template("index.html", token="Flask+React Connect Success: About")
-
-
 # Login Page
 @app.route("/login/", methods=['GET', 'POST'])
 def my_login():
