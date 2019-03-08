@@ -55,26 +55,48 @@
     
     <!-- TESTING SOCKET - make sure to implement this into a component instead-->
     <!---->
+    <form onsubmit="forecast_submit(this); return false">
+        <input type="text" name="forecast" placeholder="City, Province/Country" />
+    </form>
+    <form onsubmit="pin_submit(this); return false">
+        <input type="text" name="pinCombo" pattern="[1-3]{4}" maxlength="4" placeholder="Set Pin Code" />
+    </form>
+    <form>
+        <input id="colorpicker" name="ledSwitch" type="color" onChange={led_change(this.value)}>
+    </form>
     <script type="text/javascript">
       const socket = io.connect('localhost:5000');
       socket.on('connect', function() {
         socket.emit('my event', {data: 'I\'m connected!'});
       });
 
-      socket.on('Temperature', function(data){update_temperature(data)});
+      <!-- Inputs -->
+      socket.on('temperature', function(data){update_temperature(data)});
       function update_temperature(temperature)
       {
         document.getElementById('Temperature').innerText = temperature;
       }
 
+      <!-- Outputs -->
       function led_change(value)
       {
-        socket.emit('led_change', value);
+          socket.emit('rgbled_hex', value);
       }
 
-      socket.on('send_back', function(data){
-        document.getElementById('color_div').innerText = data;
-      });
+      function pin_submit(form)
+      {
+          socket.emit('door_pin', form.pinCombo.value);
+      }
+
+      function forecast_submit(form)
+      {
+          socket.emit('weather_location', form.forecast.value)
+      }
+
+      function onethis(form) {
+
+
+      }
     </script>
   </body>
 </html>

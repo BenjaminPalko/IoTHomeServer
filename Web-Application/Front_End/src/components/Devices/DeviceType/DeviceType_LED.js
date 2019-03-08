@@ -2,14 +2,15 @@ import React from 'react';
 import {Form, ButtonToolbar, Button} from 'react-bootstrap';
 import './DeviceType_LED.css';
 
+
 const devicetype_led = (object) => {
+
     return (
         <div>
             
-            <Form method="POST">
-                <input id="colorpicker" name="ledSwitch" type="color"/>
-                <Button className="button" type="submit" variant="primary">Submit</Button>
-            </Form>
+            {/*<Form>*/}
+                {/*<input id="colorpicker" name="ledSwitch" type="color" onChange={led_change(this.value)}></input>*/}
+            {/*</Form>*/}
 
             {/* <Form method="POST">
                 <ButtonToolbar>

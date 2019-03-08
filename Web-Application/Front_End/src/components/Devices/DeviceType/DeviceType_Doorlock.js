@@ -11,6 +11,7 @@ import Doorlock_Input from '../Doorlock_Privilege/Doorlock_Input';
 // 1 2 3
 // input saves into variable
 
+// onSubmit={pin_submit(this.value)}
 
 const devicetype_doorlock = (object) => {
     return (

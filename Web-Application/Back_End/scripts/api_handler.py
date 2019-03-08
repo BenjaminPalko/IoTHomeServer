@@ -24,3 +24,9 @@ def retrieve_weather(location):
     response = urlresponse.urlopen(weather_api + args)
     data = response.read().decode('utf-8')
     return data
+
+
+def parse_weather_data(data):
+    json_object = json.loads(data)
+    parsed_string = json.dumps(json_object['currently'])
+    return parsed_string

@@ -1,9 +1,5 @@
-from scripts.devices import RGBLED, Temperature
 from flask_socketio import SocketIO, send
 
-# Device Setup
-rgbled = RGBLED(42, "nodemcu/rgbled", 'rgbled')
-temperature = Temperature(43, "nodemcu/temp", 'temp')
 
 # LED Device Method
 # ledCheck: Change the color of the LED based on input
@@ -32,10 +28,12 @@ def ledCheck(ledRequestSubmit):
     print('===========================\n')
     return output
 
+
 def ledHexCheck(ledRequestSubmit):
     print('===========================')
     print('The LED is set to: ' + ledRequestSubmit)
     print('===========================\n')
+
 
 # Temperature Device Methods
 # update_temp: Checks if the browser needs to update and display the new temperature. Temperature reading, update if changed.
@@ -60,15 +58,6 @@ def update_temp(id, newTemperature):
         print('===========================\n')
         # return temp_temperature
 
-def new_element(type, id):
-    pass    # Fill out function
-
-
-def check_if_element_exists(id):
-    if not temperature.id:
-        print('temperature id does not exist')
-    else:
-        print('temperature id exists')
 
 # Doorlock Device Method
 def doorLockCheck(doorComboRequestSubmit):
@@ -84,6 +73,7 @@ def doorLockCheck(doorComboRequestSubmit):
         print('===========================\n')
         #Possibly put a counter for how many tries till it locks out
     pass # return something for device
+
 
 # Weather Forecase Device Method
 def geoLocationCheck(geoLocationRequestSubmit):

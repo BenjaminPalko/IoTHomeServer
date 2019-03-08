@@ -18,15 +18,10 @@ export default class Home extends Component {
                         <h2>Development Testing Area</h2>
                         <ListGroup variant="flush">
                             <ListGroup.Item>
-                                <input className="spacing" type="text"></input>
-                                <Button className="spacing" variant="primary" type="submit">
-                                    Submit
-                                </Button>
-                                Temperature
-                                {/* <DeviceType_Temperature/> */}
+                                 <DeviceType_Temperature/>
                             </ListGroup.Item>
                             <ListGroup.Item>
-                                <DeviceType_LED/> 
+                                {/*<DeviceType_LED/> */}
                                 LED Light Toggles
                             </ListGroup.Item>
                             <ListGroup.Item></ListGroup.Item>
