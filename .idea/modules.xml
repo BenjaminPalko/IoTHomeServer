@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/IoTHomeServer.iml" filepath="$PROJECT_DIR$/.idea/IoTHomeServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Raskal.iml" filepath="$PROJECT_DIR$/.idea/Raskal.iml" />
     </modules>
   </component>
 </project>
