@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  timer:
+    build: ./devices/rgbled
+    environment:
+      PYTHONUNBUFFERED: 1
+  flask:
+    build: ./flask
+    ports:
+      - "5000:5000"
+    environment:
+      PYTHONUNBUFFERED: 1
+    #  - AWS_BROKER='3.84.42.130'
+    #  - AZURE_BROKER='40.86.204.73'
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD = root
+      - POSTGRES_DB = default
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
