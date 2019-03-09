@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f5ce3f54-b6dd-45c4-bf97-f4ea6b9da9e2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../devices/rgbled/script.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dependencies.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/template/default.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../handler/script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Back_End/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Back_End/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Back_End/static/react/precache-manifest.def949c0db07b1ee523b0bcc6486ba42.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Back_End/static/react/precache-manifest.def949c0db07b1ee523b0bcc6486ba42.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Back_End/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../devices/rgbled/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/Dev_README.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/config/env.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/config/jest/cssTransform.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/config/jest/fileTransform.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/config/paths.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/config/webpack.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/config/webpackDevServer.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/public/static/led-lamp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/public/static/rain.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/public/static/shield.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/public/static/thermometer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/scripts/build.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/scripts/start.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/scripts/test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/App.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/App.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/About/About.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/About/About.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/CustomNavbar/CustomNavbar.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/CustomNavbar/CustomNavbar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Devices/AddDeviceInput/AddDeviceInput.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Devices/AddDeviceInput/AddDeviceInput.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Devices/DeviceType/DeviceType_Doorlock.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Devices/DeviceType/DeviceType_Geolocation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Devices/DeviceType/DeviceType_LED.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Devices/DeviceType/DeviceType_LED.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Devices/DeviceType/DeviceType_Login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Devices/DeviceType/DeviceType_Temperature.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Devices/Devices.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Devices/Devices.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Devices/Doorlock_Privilege/Doorlock_Input.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Home/Home.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Home/Home.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/components/Login/Login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/logo_body.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Front_End/src/serviceWorker.js" beforeDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/static/bootstrap/css/bootstrap.css">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/bootstrap/css/bootstrap.min.css">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/static/bootstrap/css/bootstrap.min.css" />
+        <option value="$PROJECT_DIR$/template/default.html" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="297" />
+    <option name="y" value="-18" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="flask" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="flask" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="flask" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="bootstrap" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="flask" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="bootstrap" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="flask" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="bootstrap" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+              <item name="bootstrap.css" type="620a8d5e:NestingTreeNode" />
+            </path>
+            <path>
+              <item name="flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="flask" type="462c0819:PsiDirectoryNode" />
+              <item name="template" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="default.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63343/flask/template/default.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.default.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f5ce3f54-b6dd-45c4-bf97-f4ea6b9da9e2" name="Default Changelist" comment="" />
+      <created>1552098697348</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1552098697348</updated>
+      <workItem from="1552098698928" duration="1523000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1523000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/static/bootstrap/css/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/bootstrap/css/bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/template/default.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
