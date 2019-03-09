@@ -1,5 +1,6 @@
 sudo: required
 dist: xenial
+language: python
 
 env:
   DOCKER_COMPOSE_VERSION: 1.23.1
@@ -18,8 +19,24 @@ before_install:
 script:
   - docker-compose up -d
 
-after_script:
-  - docker-compose stop
+deploy:
+  provider: heroku
+    api-key:
+      secure: $HEROKU_API_KEY
+    app: raskal
+    on:
+      repo: BenjaminPalko/IoTHomeServer
+      branch: master
+
+after_success:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $WEBHOOK_URL
+after_failure:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL
+
 branches:
   only:
     - master
