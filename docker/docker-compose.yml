@@ -7,6 +7,8 @@ services:
       - "5000:5000"
     environment:
       PYTHONUNBUFFERED: 1
+      FLASK_DEBUG: 1
+      FLASK_APP: main.py
     #  - AWS_BROKER='3.84.42.130'
     #  - AZURE_BROKER='40.86.204.73'
   db:
@@ -17,8 +19,3 @@ services:
     environment:
       - POSTGRES_PASSWORD = root
       - POSTGRES_DB = default
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080

@@ -1,9 +1,9 @@
 services:
   - docker
+ env:
+  - DOCKER_COMPOSE_VERSION=1.4.2
 before_install:
   - docker -v
-  # Use the env config
-  - cp .env.example .env
   # Stop the postgres instance travis sets up automatically
   - sudo /etc/init.d/postgresql stop
   - sudo service mysql stop
@@ -11,7 +11,7 @@ before_install:
   # see https://docs.travis-ci.com/user/environment-variables/#Defining-Variables-in-Repository-Settings
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 install:
-  docker-compose up -d
+  - docker-compose up -d docker .
 branches:
   only:
     - master
