@@ -21,12 +21,12 @@ script:
 
 deploy:
   provider: heroku
-    api-key:
-      secure: $HEROKU_API_KEY
-    app: raskal
-    on:
-      repo: BenjaminPalko/IoTHomeServer
-      branch: master
+  api-key:
+    secure: $HEROKU_API_KEY
+  app: raskal
+  on:
+    repo: BenjaminPalko/IoTHomeServer
+    branch: develop
 
 after_success:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
