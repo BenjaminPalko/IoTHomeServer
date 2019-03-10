@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/BenjaminPalko/IoTHomeServer.svg?token=5zpsmBpqWisULcYbEE4z&branch=master)](https://travis-ci.com/BenjaminPalko/IoTHomeServer)
 # IoTHomeServer
 This is the README for the 4th Year Project of:
 
