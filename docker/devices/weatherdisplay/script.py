@@ -1,18 +1,22 @@
 from paho.mqtt import client
 from urllib import request
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 import json
 import time
 import os
 
 #   Device Id
 device_mac = os.environ['MAC_ADDRESS']
+broker = os.environ['MQTT_BROKER']
+topic = os.environ['MQTT_TOPIC']
+db_url = os.environ['POSTGRES_URL']
+db_password = os.environ['POSTGRES_PASSWORD']
 
 
 '''
     POSTGRES Database
 '''
-engine = create_engine(os.environ['POSTGRES_URL'])
+engine = create_engine(db_url)
 connection = engine.connect()
 
 
@@ -31,6 +35,11 @@ client = client.Client()
 
 def on_connect(client, userdata, flags, rc):
     print(connect_results[rc])
+
+
+client.connect(broker, 1883)
+client.subscribe(topic)
+client.loop_start()
 
 
 '''
@@ -63,15 +72,25 @@ def retrieve_weather(location):
     return cut_json_object
 
 
+def update():
+    try:
+        query = text("select location from weather where id = :mac")
+        result = connection.execute(query, mac=device_mac)
+        weather_object = {
+            "mac": device_mac,
+            "data": retrieve_weather(result.fetchone()[0])
+        }
+        print('Publishing')
+        client.publish(os.environ['MQTT_TOPIC'], json.dumps(weather_object))
+        print('Success')
+        result.close()
+    except TypeError:
+        pass
+
+
 '''
     Execution Area
 '''
 while True:
-    result = connection.execute('select location from weather_display where id = :mac', mac=device_mac)
-    weather_object = {
-        "id": device_mac,
-        "data": retrieve_weather(result[0]['location'])
-    }
-    client.publish(os.environ['MQTT_TOPIC'], json.dumps(weather_object))
-    result.close()
+    update()
     time.sleep(15)

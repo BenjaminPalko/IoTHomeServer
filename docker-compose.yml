@@ -2,38 +2,65 @@ version: '3'
 
 services:
 
+  rgb_led:
+    build: ./docker/devices/rgbled/
+    environment:
+      TZ: 'America/New_York'
+      PYTHONUNBUFFERED: 1
+      MAC_ADDRESS: 80:7D:3A:3C:54:5B
+      POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
+      POSTGRES_PASSWORD: 'root'
+      MQTT_BROKER: '3.84.42.130'
+      MQTT_TOPIC: 'nodemcu/rgbled'
+
+  doorlock:
+    build: ./docker/devices/doorlock/
+    environment:
+      TZ: 'America/New_York'
+      PYTHONUNBUFFERED: 1
+      MAC_ADDRESS: 80:7D:3A:6E:88:0D
+      POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
+      POSTGRES_PASSWORD: 'root'
+      MQTT_BROKER: '3.84.42.130'
+      MQTT_TOPIC: 'nodemcu/doorlock'
+
   temperature_sensor:
     build: ./docker/devices/temperaturesensor/
     environment:
+      TZ: 'America/New_York'
       PYTHONUNBUFFERED: 1
-      MAC_ADDRESS: '80:7D:3A:3C:57:60'
+      MAC_ADDRESS: 80:7D:3A:3C:57:60
       POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
       POSTGRES_PASSWORD: 'root'
       MQTT_BROKER: '3.84.42.130'
       MQTT_TOPIC: 'nodemcu/temp'
 
-#  weather_display:
-#    build: ./docker/devices/weatherdisplay
-#    environment:
-#      MAC_ADDRESS: '01:23:45:67:89:AB'
-#      OPENCAGE_KEY: 'aa393b66d43b473aa5cc32686cd9f706'
-#      DARKSKY_KEY: 'e27dc67e1e9ed83de174650f3d549bf6'
-#      POSTGRES_URL: 'postgres://postgres@localhost:5432/postgres'
-#      AWS_BROKER: '3.84.42.130'
-#      MQTT_TOPIC: 'nodemcu/weatherdisplay'
+  weather:
+    build: ./docker/devices/weatherdisplay
+    environment:
+      PYTHONUNBUFFERED: 1
+      MAC_ADDRESS: 80:7D:3A:6E:96:78
+      OPENCAGE_KEY: 'aa393b66d43b473aa5cc32686cd9f706'
+      DARKSKY_KEY: 'e27dc67e1e9ed83de174650f3d549bf6'
+      POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
+      POSTGRES_PASSWORD: 'root'
+      MQTT_BROKER: '3.84.42.130'
+      MQTT_TOPIC: 'nodemcu/weather'
 
+# Web app
   flask:
     build: ./docker/flask/
     ports:
       - "5000:5000"
     environment:
+      TZ: 'America/New_York'
       PYTHONUNBUFFERED: 1
       FLASK_DEBUG: 1
       FLASK_APP: main.py
       POSTGRES_DB: postgresql://postgres@db:5432/postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
-
+# Database
   db:
     image: postgres
     restart: always
@@ -42,16 +69,10 @@ services:
     volumes:
       - ./docker/postgres/setup.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
+      TZ: 'America/New_York'
+      PGTZ: 'America/New_York'
       POSTGRES_PASSWORD: root
       POSTGRES_DB: postgres
-
-  broker:
-    image: eclipse-mosquitto
-    restart: always
-    expose:
-      - 1883
-    ports:
-      - 1883:1883
 
   pgadmin:
     image: dpage/pgadmin4
@@ -60,7 +81,19 @@ services:
     depends_on:
       - db
     environment:
+      TZ: 'America/New_York'
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: pwdpwd
     ports:
       - "5050:80"
+
+# MQTT
+  broker:
+    image: eclipse-mosquitto
+    restart: always
+    expose:
+      - 1883
+    ports:
+      - 1883:1883
+    environment:
+      TZ: 'America/New_York'

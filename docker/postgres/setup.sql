@@ -37,7 +37,7 @@ create table weather
 	id varchar(17) not null
 		constraint weather_pk
 			primary key,
-	location int not null,
+	location varchar(30) not null,
 	timestamp timestamp not null
 );
 
@@ -47,6 +47,10 @@ create table doorlock
 	id varchar(17) not null
 		constraint doorlock_pk
 			primary key,
-	pin varchar(4) not null,
+	pin int not null,
 	timestamp timestamp not null
 );
+
+--set timezone
+ALTER DATABASE postgres SET TIMEZONE TO 'America/New_York';
+SHOW TIMEZONE;
