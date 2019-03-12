@@ -235,6 +235,7 @@
       }
       function forecast_submit(form)
       {
+          print("testing connection")
           // console.log(form.forecast.value); Could use the json values to display on browser too
           socket.emit('weather_location', form.forecast.value)
       }

@@ -83,6 +83,7 @@ security_pin = 1232
 
 @app.route('/')
 def default():
+    print("WHATTTTTTTTT")
     return render_template("index.html")
 
 
@@ -95,18 +96,21 @@ def update_rgb_led(rgbled_hex):
     rgbled = RgbLED(color=rgbled_hex, change=True)
     db.session.add(rgbled)
     db.session.commit()
+    print("data: " + rgbled)
 
 
 # Weather Display
 # Receive location string from client
 @socketio.on('weather_location')
 def change_weather_display(weather_location):
+    print("testing connection")
     json_string = scripts.api_handler.retrieve_weather(weather_location)
     parsed_string = scripts.api_handler.parse_weather_data(json_string)
 
     weatherlocation = WeatherDisplay(location=parsed_string, change=True)
     db.session.add(weatherlocation)
     db.session.commit()
+    print("data: " + weatherlocation)
 
 
 # Door Lock
