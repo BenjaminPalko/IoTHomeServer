@@ -3,10 +3,10 @@ from flask_socketio import SocketIO
 from flask_mqtt import Mqtt
 from flask_sqlalchemy import SQLAlchemy
 import json
-import scripts.api_handler
 
 AWS_MOSQUITTO = '3.84.42.130'
 AZURE_MOSQUITTO = '40.86.204.73'
+DOCKER_BROKER = '0.0.0.0'
 security_pin = None
 
 
@@ -17,7 +17,7 @@ app.config.update(
     SQLALCHEMY_DATABASE_URI='postgresql://postgres@localhost:5432/postgres',
     SQLALCHEMY_USERNAME='postgres',
     SQLALCHEMY_PASSWORD='root',
-    MQTT_BROKER_URL='3.84.42.130',
+    MQTT_BROKER_URL=AWS_MOSQUITTO,
     MQTT_BROKER_PORt=1883,
     MQTT_KEEPALIVE=60
 )

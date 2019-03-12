@@ -1,21 +1,27 @@
-from sqlalchemy import create_engine, text
 from paho.mqtt import client
-import time
+from sqlalchemy import create_engine, text
 import json
+import time
 import os
 
+#   Device Id
 device_mac = os.environ['MAC_ADDRESS']
 broker = os.environ['MQTT_BROKER']
 topic = os.environ['MQTT_TOPIC']
 db_url = os.environ['POSTGRES_URL']
 db_password = os.environ['POSTGRES_PASSWORD']
 
-#   <<< SQLALCHEMY  >>>
+
+'''
+    POSTGRES Database
+'''
 engine = create_engine(db_url, echo=True)
 connection = engine.connect()
 
 
-#   <<< MQTT Client >>>
+'''
+    MQTT Client
+'''
 connect_results = {
     0: "Connection Successful",
     1: "Connection refused - incorrect protocol version",
@@ -23,26 +29,32 @@ connect_results = {
     3: "Connection refused - bad username or password",
     4: "Connection refused - not authorised"
 }
+client = client.Client()
 
 
 def on_connect(client, userdata, flags, rc):
     print(connect_results[rc])
 
 
-def on_message(client, userdata, msg):
-    json_object = json.loads(msg.payload.decode())
-    if json_object["mac"] == device_mac:
-        query = text("INSERT INTO temperature_sensor VALUES (:id, :temperature, CURRENT_TIMESTAMP)")
-        connection.execute(query, id=str(device_mac), temperature=float(json_object['data']['temperature']))
-
-
-client = client.Client()
-client.on_connect = on_connect
-client.on_message = on_message
 client.connect(broker, 1883)
 client.subscribe(topic)
 client.loop_start()
 
-print('Loop started CTRL-C to quit...')
+
+def check_update():
+    try:
+        query = text("select * from rgb_led where id = :mac")
+        result = connection.execute(query, mac=device_mac).fetchone()
+        if result is not None and result[3]:
+            query2 = text("update rgb_led set change = FALSE where id = :mac")
+            connection.execute(query2, mac=device_mac)
+            json_object = {"mac": device_mac, "data": {"color": result[1]}}
+            client.publish(topic, json.dumps(json_object))
+            print('Message sent')
+    except TypeError:
+        pass
+
+
 while True:
-    time.sleep(2)
+    check_update()
+    time.sleep(5)
