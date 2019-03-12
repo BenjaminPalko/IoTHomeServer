@@ -28,7 +28,8 @@ create table rgb_led
 		constraint rgb_led_pk
 			primary key,
 	color varchar(7) not null,
-	timestamp timestamp not null
+	timestamp timestamp not null,
+	change boolean default TRUE not null
 );
 
 -- weather table setup
@@ -38,7 +39,8 @@ create table weather
 		constraint weather_pk
 			primary key,
 	location varchar(30) not null,
-	timestamp timestamp not null
+	timestamp timestamp not null,
+	change boolean default TRUE not null
 );
 
 --doorlock table setup

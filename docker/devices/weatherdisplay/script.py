@@ -16,7 +16,7 @@ db_password = os.environ['POSTGRES_PASSWORD']
 '''
     POSTGRES Database
 '''
-engine = create_engine(db_url)
+engine = create_engine(db_url, echo=True)
 connection = engine.connect()
 
 
@@ -74,16 +74,18 @@ def retrieve_weather(location):
 
 def update():
     try:
-        query = text("select location from weather where id = :mac")
-        result = connection.execute(query, mac=device_mac)
-        weather_object = {
-            "mac": device_mac,
-            "data": retrieve_weather(result.fetchone()[0])
-        }
-        print('Publishing')
-        client.publish(os.environ['MQTT_TOPIC'], json.dumps(weather_object))
-        print('Success')
-        result.close()
+        query = text("select location, change from weather where id = :mac")
+        result = connection.execute(query, mac=device_mac).fetchone()
+        if result[1]:
+            weather_object = {
+                "mac": device_mac,
+                "data": retrieve_weather(result[0])
+            }
+            query2 = text("update weather set change = FALSE where id = :mac")
+            connection.execute(query2, mac=device_mac)
+            print('Publishing')
+            client.publish(os.environ['MQTT_TOPIC'], json.dumps(weather_object))
+            print('Success')
     except TypeError:
         pass
 

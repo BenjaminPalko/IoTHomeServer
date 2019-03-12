@@ -65,12 +65,12 @@ def on_message(client, userdata, msg):
     :param msg: message received, uses .topic and .payload commands
     :return: N/A
     """
-    print(msg.payload.decode())
     json_object = json.loads(msg.payload)
     if json_object["mac"] == device_mac and "passcode" in json_object['data']:
         result_pin = query_pin()
         json_string = get_validation(result_pin, json_object["data"]["passcode"])
         client.publish(topic, json_string)
+        print('Passcode good! Sending reply')
 
 
 client.on_connect = on_connect
