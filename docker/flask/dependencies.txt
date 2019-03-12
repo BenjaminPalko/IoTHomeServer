@@ -5,3 +5,7 @@ paho-mqtt==1.2.3
 gevent
 gevent-websocket
 flask-mqtt
+sqlalchemy
+psycopg2
+eventlet
+datetime

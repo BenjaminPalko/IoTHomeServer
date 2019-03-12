@@ -2,28 +2,40 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO
 from flask_mqtt import Mqtt
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from datetime import datetime
+from sqlalchemy.orm import relationship, backref
+import os
 import json
 
-AWS_MOSQUITTO = '3.84.42.130'
-AZURE_MOSQUITTO = '40.86.204.73'
+RGB= '80:7D:3A:3C:54:5B'
+TEMP= '80:7D:3A:3C:57:60'
+WEATHER= '80:7D:3A:6E:96:78'
+DOORLOCK= '80:7D:3A:6E:88:0D'
 DOCKER_BROKER = '0.0.0.0'
 security_pin = None
+dateTime = datetime.now()
 
 
 # Flask + Socket + MQTT Setup
 app = Flask(__name__, template_folder="templates")
 app.config.update(
     SECRET_KEY='iotSecret_key',
-    SQLALCHEMY_DATABASE_URI='postgresql://postgres@localhost:5432/postgres',
-    SQLALCHEMY_USERNAME='postgres',
-    SQLALCHEMY_PASSWORD='root',
-    MQTT_BROKER_URL=AWS_MOSQUITTO,
-    MQTT_BROKER_PORt=1883,
-    MQTT_KEEPALIVE=60
+    SQLALCHEMY_DATABASE_URI=os.environ['POSTGRES_DB'],
+    SQLALCHEMY_USERNAME=os.environ['POSTGRES_USER'],
+    SQLALCHEMY_PASSWORD=os.environ['POSTGRES_PASSWORD']
+    # MQTT_BROKER_URL=AWS_MOSQUITTO,
+    # MQTT_BROKER_PORt=1883,
+    # MQTT_KEEPALIVE=60
 )
 socketio = SocketIO(app)
-mqtt = Mqtt(app)
+# mqtt = Mqtt(app)
 db = SQLAlchemy(app)
+engine = create_engine(os.environ['POSTGRES_DB'], convert_unicode=True, echo=False)
+
+Base = declarative_base()
+Base.metadata.reflect(engine)
 
 
 # These classes will allow you to query the database
@@ -63,10 +75,11 @@ class WeatherDisplay(db.Model):
         return f"WeatherDisplay('{self.id}', '{self.location}', '{self.change}')"
 
 
-class DoorLock(db.Model):
-    __tablename__ = 'doorlock'
+class DoorLock(Base):
+    __tablename__ = Base.metadata.tables['doorlock']
     id = db.Column('id', db.Integer, primary_key=True)
     pin = db.Column('pin', db.Integer)
+    timestamp = db.Column('timestamp', db.DateTime())
 
     def __repr__(self):
         return f"DoorLock('{self.id}', '{self.pin}')"
@@ -83,7 +96,9 @@ security_pin = 1232
 
 @app.route('/')
 def default():
-    print("WHATTTTTTTTT")
+    doorlock = DoorLock(id=131233123, pin=1111, timestamp=dateTime)
+    db.session.add(doorlock)
+    db.session.commit()
     return render_template("index.html")
 
 
