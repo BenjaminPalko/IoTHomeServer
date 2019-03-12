@@ -119,7 +119,7 @@
             <img style="width: 50%; align-self: center" class="card-img-top" src="../static/img/shield.png" alt="">
             <div class="card-body">
               <h3 class="card-title">Pin Lock Security Combo</h3>
-              <form onsubmit="pin_submit(this); return false">
+              <form onsubmit="pin_submit(this); return false" method="post">
                 <input type="text" name="pinCombo" pattern="[1-3]{4}" maxlength="4" placeholder="Set Pin Code" />
               </form>
             </div>

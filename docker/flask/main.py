@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_socketio import SocketIO
 from flask_mqtt import Mqtt
 from flask_sqlalchemy import SQLAlchemy
@@ -46,43 +46,46 @@ Base.metadata.reflect(engine)
 # variable = className(parameters)
 # db.session.add(variable)
 # db.session.commit()
-class TemperatureSensor(db.Model):
-    __tablename__ = 'temperature_sensor'
+class TemperatureSensor(Base):
+    __tablename__ = Base.metadata.tables['temperature_sensor']
     id = db.Column('id', db.Integer, primary_key=True)
     value = db.Column('value', db.Float)
+    timestamp = db.Column('timestamp', db.DateTime())
 
     def __repr__(self):
-        return f"TemperatureSensor('{self.id}', '{self.value}')"
+        return f"TemperatureSensor('{self.id}', '{self.value}', '{self.timestamp}')"
 
 
-class RgbLED(db.Model):
-    __tablename__ = 'rgb_led'
+class RgbLED(Base):
+    __tablename__ = Base.metadata.tables['rgb_led']
     id = db.Column('id', db.Integer, primary_key=True)
     color = db.Column('color', db.Unicode)
     change = db.Column('change', db.Boolean)
+    timestamp = db.Column('timestamp', db.DateTime())
 
     def __repr__(self):
-        return f"RgbLED('{self.id}', '{self.color}', '{self.change}')"
+        return f"RgbLED('{self.id}', '{self.color}', '{self.change}', '{self.timestamp}')"
 
 
-class WeatherDisplay(db.Model):
-    __tablename__ = 'weather'
+class WeatherDisplay(Base):
+    __tablename__ = Base.metadata.tables['weather']
     id = db.Column('id', db.Integer, primary_key=True)
     location = db.Column('location', db.Unicode)
     change = db.Column('change', db.Boolean)
+    timestamp = db.Column('timestamp', db.DateTime())
 
     def __repr__(self):
-        return f"WeatherDisplay('{self.id}', '{self.location}', '{self.change}')"
+        return f"WeatherDisplay('{self.id}', '{self.location}', '{self.change}', '{self.timestamp}')"
 
 
-class DoorLock(Base):
+class DoorLock(Base, db.Model):
     __tablename__ = Base.metadata.tables['doorlock']
     id = db.Column('id', db.Integer, primary_key=True)
     pin = db.Column('pin', db.Integer)
     timestamp = db.Column('timestamp', db.DateTime())
 
     def __repr__(self):
-        return f"DoorLock('{self.id}', '{self.pin}')"
+        return f"DoorLock('{self.id}', '{self.pin}', '{self.timestamp}')"
 
 
 # MQTT Subscriptions (Temporary, try to remove at earliest possibility)
@@ -94,11 +97,13 @@ class DoorLock(Base):
 security_pin = 1232
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def default():
-    doorlock = DoorLock(id=131233123, pin=1111, timestamp=dateTime)
-    db.session.add(doorlock)
-    db.session.commit()
+
+    if request.method =='POST':
+        f = request.form['pinCombo']
+        newSet_pin(f)
+
     return render_template("index.html")
 
 
@@ -135,12 +140,19 @@ def set_pet(door_pin):
     global security_pin
     security_pin = str(door_pin)
 
-    doorlock = DoorLock(pin=security_pin)
-    db.session.add(doorlock)
+    doorlock = DoorLock.query.filter_by(id=DOORLOCK).first()
+    doorlock.pin = security_pin
     db.session.commit()
 
     print(security_pin)
 
+def newSet_pin(value):
+    global security_pin
+    security_pin = str(value)
+
+    doorlock = DoorLock.query.filter_by(id=DOORLOCK).first()
+    doorlock.pin = security_pin
+    db.session.commit()
 
 # Temperature
 # Send new temp received from MQTT to client
