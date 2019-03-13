@@ -46,7 +46,7 @@ Base.metadata.reflect(engine)
 # variable = className(parameters)
 # db.session.add(variable)
 # db.session.commit()
-class TemperatureSensor(Base):
+class TemperatureSensor(Base, db.Model):
     __tablename__ = Base.metadata.tables['temperature_sensor']
     id = db.Column('id', db.Integer, primary_key=True)
     value = db.Column('value', db.Float)
@@ -56,7 +56,7 @@ class TemperatureSensor(Base):
         return f"TemperatureSensor('{self.id}', '{self.value}', '{self.timestamp}')"
 
 
-class RgbLED(Base):
+class RgbLED(Base, db.Model):
     __tablename__ = Base.metadata.tables['rgb_led']
     id = db.Column('id', db.Integer, primary_key=True)
     color = db.Column('color', db.Unicode)
@@ -67,7 +67,7 @@ class RgbLED(Base):
         return f"RgbLED('{self.id}', '{self.color}', '{self.change}', '{self.timestamp}')"
 
 
-class WeatherDisplay(Base):
+class WeatherDisplay(Base, db.Model):
     __tablename__ = Base.metadata.tables['weather']
     id = db.Column('id', db.Integer, primary_key=True)
     location = db.Column('location', db.Unicode)
@@ -101,8 +101,15 @@ security_pin = 1232
 def default():
 
     if request.method =='POST':
-        f = request.form['pinCombo']
-        newSet_pin(f)
+        if "colorpicked" in request.form:
+            f = request.form['ledSwitch']
+            newRGB_led(f)
+        if "pinSet" in request.form:
+            f = request.form['pinCombo']
+            newSet_pin(f)
+        if "forecastSet" in request.form:
+            f = request.form['forecast']
+            newForecast(f)
 
     return render_template("index.html")
 
@@ -145,6 +152,19 @@ def set_pet(door_pin):
     db.session.commit()
 
     print(security_pin)
+
+
+def newForecast(value):
+    weather = WeatherDisplay.query.filter_by(id=WEATHER).first()
+    weather.location = value
+    db.session.commit()
+
+
+def newRGB_led(value):
+    rgbled = RgbLED.query.filter_by(id=RGB).first()
+    rgbled.color = value
+    db.session.commit()
+
 
 def newSet_pin(value):
     global security_pin
