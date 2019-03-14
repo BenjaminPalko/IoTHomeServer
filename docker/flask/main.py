@@ -81,7 +81,7 @@ class DoorLock(Base, db.Model):
         return f"DoorLock('{self.id}', '{self.pin}', '{self.timestamp}')"
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def default():
     return render_template("index.html")
 
