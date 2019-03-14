@@ -57,9 +57,13 @@ services:
       PYTHONUNBUFFERED: 1
       FLASK_DEBUG: 1
       FLASK_APP: main.py
-      POSTGRES_DB: postgresql://postgres@db:5432/postgres
+      POSTGRES_DB: postgresql://postgres:root@db:5432/postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
+    entrypoint:
+      - flask
+      - run
+      - --host=0.0.0.0
 # Database
   db:
     image: postgres
