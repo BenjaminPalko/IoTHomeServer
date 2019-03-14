@@ -1,5 +1,5 @@
 version: '3'
-
+# AWS Broker MQTT_BROKER: '3.84.42.130'
 services:
 
   rgb_led:
@@ -10,7 +10,7 @@ services:
       MAC_ADDRESS: 80:7D:3A:3C:54:5B
       POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
       POSTGRES_PASSWORD: 'root'
-      MQTT_BROKER: '3.84.42.130'
+      MQTT_BROKER: 'broker'
       MQTT_TOPIC: 'nodemcu/rgbled'
 
   doorlock:
@@ -21,7 +21,7 @@ services:
       MAC_ADDRESS: 80:7D:3A:6E:88:0D
       POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
       POSTGRES_PASSWORD: 'root'
-      MQTT_BROKER: '3.84.42.130'
+      MQTT_BROKER: 'broker'
       MQTT_TOPIC: 'nodemcu/doorlock'
 
   temperature_sensor:
@@ -32,7 +32,7 @@ services:
       MAC_ADDRESS: 80:7D:3A:3C:57:60
       POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
       POSTGRES_PASSWORD: 'root'
-      MQTT_BROKER: '3.84.42.130'
+      MQTT_BROKER: 'broker'
       MQTT_TOPIC: 'nodemcu/temp'
 
   weather:
@@ -44,7 +44,7 @@ services:
       DARKSKY_KEY: 'e27dc67e1e9ed83de174650f3d549bf6'
       POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
       POSTGRES_PASSWORD: 'root'
-      MQTT_BROKER: '3.84.42.130'
+      MQTT_BROKER: 'broker'
       MQTT_TOPIC: 'nodemcu/weather'
 
 # Web app
@@ -78,19 +78,6 @@ services:
       PGTZ: 'America/New_York'
       POSTGRES_PASSWORD: root
       POSTGRES_DB: postgres
-
-  pgadmin:
-    image: dpage/pgadmin4
-    links:
-      - db
-    depends_on:
-      - db
-    environment:
-      TZ: 'America/New_York'
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: pwdpwd
-    ports:
-      - "5050:80"
 
 # MQTT
   broker:
