@@ -3,4 +3,10 @@ Flask-SocketIO==3.0.1
 flask_sqlalchemy
 paho-mqtt==1.2.3
 gevent
+gevent-websocket
 flask-mqtt
+sqlalchemy
+psycopg2
+eventlet
+datetime
+schedule
