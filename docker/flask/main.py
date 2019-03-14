@@ -30,6 +30,11 @@ engine = create_engine(os.environ['POSTGRES_DB'], convert_unicode=True, echo=Fal
 Base = declarative_base()
 Base.metadata.reflect(engine)
 
+DEFAULT_COLOR = '#FFFFFF'
+DEFAULT_PIN = 1111
+DEFAULT_TEMPERATURE = 0.00
+DEFAULT_LOCATION = 'Ottawa, Ontario'
+
 
 # These classes will allow you to query the database
 # In Terminal you can query by following these steps:
@@ -90,32 +95,64 @@ def default():
 # Receive location string from client
 @socketio.on('weather_location')
 def newForecast(value):
-    weather = WeatherDisplay.query.filter_by(id=WEATHER).first()
-    weather.location = value
-    weather.timestamp = datetime.now()
-    weather.change = True
-    db.session.commit()
+
+    if WeatherDisplay.query.filter_by(id=WEATHER).first() is not None:
+        print("Sent Location")
+        weather = WeatherDisplay.query.filter_by(id=WEATHER).first()
+        weather.location = value
+        weather.timestamp = datetime.now()
+        weather.change = True
+        db.session.commit()
+    else:
+        weather = WeatherDisplay()
+        weather.id = WEATHER
+        weather.location = value
+        weather.change = True
+        weather.timestamp = datetime.now()
+        db.session.add(weather)
+        db.session.commit()
 
 
 # RGBLED
 # Receive rgb Hex value from client
 @socketio.on('rgbled_hex')
 def newRGB_led(value):
-    rgbled = RgbLED.query.filter_by(id=RGB).first()
-    rgbled.color = value
-    rgbled.timestamp = datetime.now()
-    rgbled.change = True
-    db.session.commit()
+
+    if RgbLED.query.filter_by(id=RGB).first() is not None:
+        print("Sent LED")
+        rgbled = RgbLED.query.filter_by(id=RGB).first()
+        rgbled.color = value
+        rgbled.timestamp = datetime.now()
+        rgbled.change = True
+        db.session.commit()
+    else:
+        rgbled = RgbLED()
+        rgbled.id = RGB
+        rgbled.color = value
+        rgbled.change = True
+        rgbled.timestamp = datetime.now()
+        db.session.add(rgbled)
+        db.session.commit()
 
 
 # Doorlock
 # Set doorlock for device
 @socketio.on('door_pin')
 def newSet_pin(value):
-    doorlock = DoorLock.query.filter_by(id=DOORLOCK).first()
-    doorlock.pin = value
-    doorlock.timestamp = datetime.now()
-    db.session.commit()
+
+    if DoorLock.query.filter_by(id=DOORLOCK).first() is not None:
+        print("Sent Pin")
+        doorlock = DoorLock.query.filter_by(id=DOORLOCK).first()
+        doorlock.pin = value
+        doorlock.timestamp = datetime.now()
+        db.session.commit()
+    else:
+        doorlock = DoorLock()
+        doorlock.id = DOORLOCK
+        doorlock.pin = value
+        doorlock.timestamp = datetime.now()
+        db.session.add(doorlock)
+        db.session.commit()
 
 
 # Temperature
@@ -123,10 +160,19 @@ def newSet_pin(value):
 # Retrieving the data from Database
 @socketio.on('temperatureLoop')
 def temperatureLoop(value):
-    print("Checking Temperature")
-    myTemperature = TemperatureSensor.query.order_by(TemperatureSensor.timestamp.desc()).first()
-    #myTemperature = TemperatureSensor.query.filter_by(id=TEMP).first()
-    socketio.emit('temperature', myTemperature.value)
+
+    if TemperatureSensor.query.filter_by(id=TEMP).first() is not None:
+        print("Checking Temperature")
+        myTemperature = TemperatureSensor.query.order_by(TemperatureSensor.timestamp.desc()).first()
+        #myTemperature = TemperatureSensor.query.filter_by(id=TEMP).first()
+        socketio.emit('temperature', myTemperature.value)
+    else:
+        myTemperature = TemperatureSensor()
+        myTemperature.id = TEMP
+        myTemperature.value = DEFAULT_TEMPERATURE
+        myTemperature.timestamp = datetime.now()
+        db.session.add(myTemperature)
+        db.session.commit()
 
 
 if __name__ == "__main__":
