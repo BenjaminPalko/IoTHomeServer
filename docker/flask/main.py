@@ -1,12 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 import os
-import time
-import _thread
+import threading
+import atexit
 
 
 RGB= '80:7D:3A:3C:54:5B'
@@ -17,7 +17,7 @@ DOCKER_BROKER = '0.0.0.0'
 security_pin = None
 
 
-# Flask + Socket + MQTT Setup
+# Flask + Socket + Thread Setup
 app = Flask(__name__, template_folder="templates")
 app.config.update(
     SECRET_KEY='iotSecret_key',
@@ -31,6 +31,9 @@ engine = create_engine(os.environ['POSTGRES_DB'], convert_unicode=True, echo=Fal
 
 Base = declarative_base()
 Base.metadata.reflect(engine)
+
+temperatureThread = threading.Thread()
+temperatureUpdateTimer = 5
 
 
 # These classes will allow you to query the database
@@ -83,8 +86,12 @@ class DoorLock(Base, db.Model):
         return f"DoorLock('{self.id}', '{self.pin}', '{self.timestamp}')"
 
 
-@app.route('/')
+@app.route('/', method='POST')
 def default():
+
+    if request.method == 'POST':
+        startTemperatureThread()
+
     return render_template("index.html")
 
 
@@ -123,15 +130,29 @@ def newSet_pin(value):
 # Temperature
 # Send new temp received from MQTT to client
 # Retrieving the data from Database
-def update_temperature_loop():
+def update_temperature():
     print('Thread connected')
-    while True:
-        time.sleep(2)
-        # myTemperature = TemperatureSensor.query.order_by(TemperatureSensor.timestamp.desc()).first()
-        myTemperature = TemperatureSensor.query.filter_by(id=TEMP).first()
-        socketio.emit('temperature', myTemperature.value)
+    # myTemperature = TemperatureSensor.query.order_by(TemperatureSensor.timestamp.desc()).first()
+    myTemperature = TemperatureSensor.query.filter_by(id=TEMP).first()
+    socketio.emit('temperature', myTemperature.value)
+
+
+def interrupt():
+    global temperatureThread
+    temperatureThread.cancel()
+
+
+def beginTemperatureLoop():
+    global temperatureThread
+    temperatureThread = threading.Timer(temperatureUpdateTimer, update_temperature())
+    temperatureThread.start()
+
+
+def startTemperatureThread():
+    beginTemperatureLoop()
+    atexit.register(interrupt())
 
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)
-    _thread.start_new_thread(update_temperature_loop(), ('',))
+
