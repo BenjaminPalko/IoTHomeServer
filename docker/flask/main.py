@@ -5,8 +5,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 import os
-import threading
-import atexit
 
 
 RGB= '80:7D:3A:3C:54:5B'
@@ -31,9 +29,6 @@ engine = create_engine(os.environ['POSTGRES_DB'], convert_unicode=True, echo=Fal
 
 Base = declarative_base()
 Base.metadata.reflect(engine)
-
-temperatureThread = threading.Thread()
-temperatureUpdateTimer = 5
 
 
 # These classes will allow you to query the database
@@ -86,12 +81,8 @@ class DoorLock(Base, db.Model):
         return f"DoorLock('{self.id}', '{self.pin}', '{self.timestamp}')"
 
 
-@app.route('/', method='POST')
+@app.route('/', methods=['GET', 'POST'])
 def default():
-
-    if request.method == 'POST':
-        startTemperatureThread()
-
     return render_template("index.html")
 
 
@@ -130,27 +121,12 @@ def newSet_pin(value):
 # Temperature
 # Send new temp received from MQTT to client
 # Retrieving the data from Database
-def update_temperature():
-    print('Thread connected')
-    # myTemperature = TemperatureSensor.query.order_by(TemperatureSensor.timestamp.desc()).first()
-    myTemperature = TemperatureSensor.query.filter_by(id=TEMP).first()
+@socketio.on('temperatureLoop')
+def temperatureLoop(value):
+    print("Checking Temperature")
+    myTemperature = TemperatureSensor.query.order_by(TemperatureSensor.timestamp.desc()).first()
+    #myTemperature = TemperatureSensor.query.filter_by(id=TEMP).first()
     socketio.emit('temperature', myTemperature.value)
-
-
-def interrupt():
-    global temperatureThread
-    temperatureThread.cancel()
-
-
-def beginTemperatureLoop():
-    global temperatureThread
-    temperatureThread = threading.Timer(temperatureUpdateTimer, update_temperature())
-    temperatureThread.start()
-
-
-def startTemperatureThread():
-    beginTemperatureLoop()
-    atexit.register(interrupt())
 
 
 if __name__ == "__main__":

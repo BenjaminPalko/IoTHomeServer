@@ -87,11 +87,6 @@
                   <h3 style="background-color: rgba(218, 213, 213, 0.788)" id="Temperature">Processing...
                   </h3>
                 </div>
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">
-                    Submit
-                  </button>
-                </div>
               </form>
           </div>
         </div>
@@ -142,6 +137,9 @@
       var socket = io.connect('127.0.0.1:5000');
       socket.on('connect', function() {
           socket.emit('my event', {data: 'I\'m connected!'});
+
+          setInterval(function(){ socket.emit('temperatureLoop', 0) }, 5000);
+
       });
       socket.on('temperature', function(data){update_temperature(data)});
       function update_temperature(temperature)
