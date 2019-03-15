@@ -81,7 +81,6 @@ def retrieve_weather(location):
 
 
 def query_location():
-    weather_object = None
     try:
         logger.debug('Querying database')
         query = text("select location, change from weather where id = :mac")
@@ -96,10 +95,10 @@ def query_location():
                     "data": retrieve_weather(result[0])
                 }
                 connection.execute(update_flag, mac=device_mac)
+                client.publish(topic, json.dumps(weather_object))
             except TypeError:
                 logger.error('SQL error on flag update')
         logger.info('Sending location: ' + result[0])
-        client.publish(topic, json.dumps(weather_object))
     except TypeError:
         logger.error('SQL error on change/location select')
 

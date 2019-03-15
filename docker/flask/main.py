@@ -162,7 +162,7 @@ def newSet_pin(value):
 def temperatureLoop(value):
 
     if TemperatureSensor.query.filter_by(id=TEMP).first() is not None:
-        print("Checking Temperature")
+        #print("Checking Temperature")
         myTemperature = TemperatureSensor.query.order_by(TemperatureSensor.timestamp.desc()).first()
         #myTemperature = TemperatureSensor.query.filter_by(id=TEMP).first()
         socketio.emit('temperature', myTemperature.value)
