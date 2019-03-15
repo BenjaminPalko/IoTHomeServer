@@ -5,11 +5,10 @@ services:
   rgb_led:
     build: ./docker/devices/rgbled/
     environment:
-      TZ: 'America/New_York'
+      TZ: '${TZ}'
       PYTHONUNBUFFERED: 1
       MAC_ADDRESS: 80:7D:3A:3C:54:5B
       POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
-      POSTGRES_PASSWORD: 'root'
       MQTT_BROKER: 'broker'
       MQTT_TOPIC: 'nodemcu/rgbled'
 

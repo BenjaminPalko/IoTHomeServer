@@ -39,7 +39,8 @@ def on_message(client, userdata, msg):
 client = client.Client()
 client.on_connect = on_connect
 client.on_message = on_message
-client.connect(broker, 1883)
+while client.connect(broker, 1883):
+    print('Did not connect')
 client.subscribe(topic)
 client.loop_start()
 
