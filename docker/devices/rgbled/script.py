@@ -54,9 +54,9 @@ def check_value():
                 logger.debug('Query Data for RGB hex value')
                 hex_query = text("update rgb_led set change = FALSE where id = :mac")
                 connection.execute(hex_query, mac=device_mac)
-                json_string = json.dumps({"mac": device_mac, "data": {"color": result[1]}})
+                json_object = {"mac": device_mac, "data": {"color": result[1]}}
                 logger.info('Sending value: ' + result[1])
-                client.publish(topic, json.dumps(json_string))
+                client.publish(topic, json.dumps(json_object))
             except TypeError:
                 logger.error('SQL query error on value retrieval')
     except TypeError:
