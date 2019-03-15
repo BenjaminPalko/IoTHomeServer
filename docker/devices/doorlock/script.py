@@ -1,20 +1,36 @@
-from sqlalchemy import create_engine, text
 from paho.mqtt import client
+from sqlalchemy import create_engine, text
+from datetime import datetime
+import logging
 import time
 import json
+import sys
 import os
 
+#   Logging
+logger = logging.getLogger()
+
+
+'''
+    Environment
+'''
 device_mac = os.environ['MAC_ADDRESS']
 broker = os.environ['MQTT_BROKER']
 topic = os.environ['MQTT_TOPIC']
 db_url = os.environ['POSTGRES_URL']
-db_password = os.environ['POSTGRES_PASSWORD']
+db_logging = bool(os.environ['POSTGRES_LOGGING'])
 
-#   <<< SQLALCHEMY  >>>
-engine = create_engine(db_url, echo=True)
+
+'''
+    POSTGRES Database
+'''
+engine = create_engine(db_url)
 connection = engine.connect()
 
-#   <<< MQTT Client >>>
+
+'''
+    MQTT Client
+'''
 connect_results = {
     0: "Connection Successful",
     1: "Connection refused - incorrect protocol version",
@@ -22,19 +38,10 @@ connect_results = {
     3: "Connection refused - bad username or password",
     4: "Connection refused - not authorised"
 }
-client = client.Client()
 
 
 def on_connect(client, userdata, flags, rc):
-    """
-
-    :param client: client subscribed to the topic being received on
-    :param userdata: not currently used
-    :param flags: not currently used
-    :param rc: connection results
-    :return:
-    """
-    print(connect_results[rc])
+    logger.info(connect_results[rc])
 
 
 def query_pin():
@@ -43,10 +50,12 @@ def query_pin():
     return result.fetchone()[0]
 
 
-def get_validation(pin1, pin2):
+def validate_pin(pin1, pin2):
     if pin1 == pin2:
+        logger.debug('Pin is valid')
         validation = 1
     else:
+        logger.debug('Pin is invalid')
         validation = 0
     new_object = {
         "mac": device_mac,
@@ -58,27 +67,54 @@ def get_validation(pin1, pin2):
 
 
 def on_message(client, userdata, msg):
-    """
-    Handles
-    :param client: client subscribed to the topic being received on
-    :param userdata: not currently used
-    :param msg: message received, uses .topic and .payload commands
-    :return: N/A
-    """
+    logger.debug('Message received on topic - ' + msg.topic)
     json_object = json.loads(msg.payload)
     if json_object["mac"] == device_mac and "passcode" in json_object['data']:
+        logger.debug('Correct mac - Querying database')
         result_pin = query_pin()
-        json_string = get_validation(result_pin, json_object["data"]["passcode"])
+        logger.info('Pin queried as ' + result_pin)
+        json_string = validate_pin(result_pin, json_object["data"]["passcode"])
+        logger.debug('Sending message - ' + json_string)
+        logger.info('Passcode good - Publishing reply')
         client.publish(topic, json_string)
-        print('Passcode good! Sending reply')
 
 
-client.on_connect = on_connect
-client.on_message = on_message
-client.connect(broker, 1883)
-client.subscribe(topic)
-client.loop_start()
+def main():
+    #   Logging setup
+    logging_level = logging.INFO
+    logger.setLevel(logging_level)
+    formatter = logging.Formatter('%(levelname)s %(asctime)s %(message)s')
 
-print('Loop started CTRL-C to quit...')
-while True:
-    time.sleep(2)
+    stream_handler = logging.StreamHandler(sys.stdout)
+    stream_handler.setLevel(logging_level)
+    stream_handler.setFormatter(formatter)
+
+    file_handler = logging.FileHandler('./logs/{:%Y-%m-%d}.log'.format(datetime.now()))
+    file_handler.setLevel(logging_level)
+    file_handler.setFormatter(formatter)
+
+    logger.addHandler(stream_handler)
+    logger.addHandler(file_handler)
+
+    logger.info('Program Started...')
+    #   Start execution loop
+    while True:
+        pass
+
+    client.loop_stop()
+    logger.debug('Program exiting...')
+    time.sleep(3)
+
+
+if __name__ == '__main__':
+    #   Broker connection
+    client = client.Client()
+    client.on_connect = on_connect
+    while client.connect(broker, 1883):
+        logger.warning('Broker failed to connect, attempting to reconnect in 4 seconds...')
+        time.sleep(4)
+    client.subscribe(topic)
+    client.loop_start()
+    #   Start main program
+    main()
+

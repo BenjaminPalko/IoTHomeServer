@@ -5,11 +5,11 @@ services:
   rgb_led:
     build: ./docker/devices/rgbled/
     environment:
-      TZ: 'America/New_York'
+      TZ: '${TZ}'
       PYTHONUNBUFFERED: 1
       MAC_ADDRESS: 80:7D:3A:3C:54:5B
       POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
-      POSTGRES_PASSWORD: 'root'
+      POSTGRES_LOGGING: 'False'
       MQTT_BROKER: 'broker'
       MQTT_TOPIC: 'nodemcu/rgbled'
 
@@ -20,7 +20,7 @@ services:
       PYTHONUNBUFFERED: 1
       MAC_ADDRESS: 80:7D:3A:6E:88:0D
       POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
-      POSTGRES_PASSWORD: 'root'
+      POSTGRES_LOGGING: 'False'
       MQTT_BROKER: 'broker'
       MQTT_TOPIC: 'nodemcu/doorlock'
 
@@ -31,7 +31,7 @@ services:
       PYTHONUNBUFFERED: 1
       MAC_ADDRESS: 80:7D:3A:3C:57:60
       POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
-      POSTGRES_PASSWORD: 'root'
+      POSTGRES_LOGGING: 'False'
       MQTT_BROKER: 'broker'
       MQTT_TOPIC: 'nodemcu/temp'
 
@@ -43,7 +43,7 @@ services:
       OPENCAGE_KEY: 'aa393b66d43b473aa5cc32686cd9f706'
       DARKSKY_KEY: 'e27dc67e1e9ed83de174650f3d549bf6'
       POSTGRES_URL: 'postgres://postgres:root@db:5432/postgres'
-      POSTGRES_PASSWORD: 'root'
+      POSTGRES_LOGGING: 'False'
       MQTT_BROKER: 'broker'
       MQTT_TOPIC: 'nodemcu/weather'
 
