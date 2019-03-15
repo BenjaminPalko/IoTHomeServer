@@ -50,10 +50,10 @@ def on_message(client, userdata, msg):
     if json_object["mac"] == device_mac:
         logger.debug('MAC recognized')
         try:
-            temp_string = float(json_object['data']['temperature'])
+            temp_float = float(json_object['data']['temperature'])
             query = text("INSERT INTO temperature_sensor VALUES (:id, :temperature, CURRENT_TIMESTAMP)")
-            connection.execute(query, id=str(device_mac), temperature=float(temp_string))
-            logger.info('Temperature {' + temp_string)
+            connection.execute(query, id=str(device_mac), temperature=temp_float)
+            logger.info('Temperature: ' + str(temp_float))
         except TypeError:
             logger.error('SQL error on insert')
 
