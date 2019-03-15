@@ -4,6 +4,9 @@ services:
 
   rgb_led:
     build: ./docker/devices/rgbled/
+    depends_on:
+      - db
+      - broker
     environment:
       TZ: '${TZ}'
       PYTHONUNBUFFERED: 1
@@ -15,6 +18,9 @@ services:
 
   doorlock:
     build: ./docker/devices/doorlock/
+    depends_on:
+      - db
+      - broker
     environment:
       TZ: 'America/New_York'
       PYTHONUNBUFFERED: 1
@@ -26,6 +32,9 @@ services:
 
   temperature_sensor:
     build: ./docker/devices/temperaturesensor/
+    depends_on:
+      - db
+      - broker
     environment:
       TZ: 'America/New_York'
       PYTHONUNBUFFERED: 1
@@ -37,6 +46,9 @@ services:
 
   weather:
     build: ./docker/devices/weatherdisplay
+    depends_on:
+      - db
+      - broker
     environment:
       PYTHONUNBUFFERED: 1
       MAC_ADDRESS: 80:7D:3A:6E:96:78
@@ -50,6 +62,8 @@ services:
 # Web app
   flask:
     build: ./docker/flask/
+    depends_on:
+      - db
     ports:
       - '5000:5000'
     environment:
