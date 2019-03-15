@@ -1,22 +1,31 @@
-from paho.mqtt import client
 from urllib import request
 from sqlalchemy import create_engine, text
-import json
+from paho.mqtt import client
+from datetime import datetime
+import logging
 import time
+import json
 import os
+import sys
 
-#   Device Id
+#   Logging
+logger = logging.getLogger()
+
+
+'''
+    Environment
+'''
 device_mac = os.environ['MAC_ADDRESS']
 broker = os.environ['MQTT_BROKER']
 topic = os.environ['MQTT_TOPIC']
 db_url = os.environ['POSTGRES_URL']
-db_password = os.environ['POSTGRES_PASSWORD']
+db_logging = bool(os.environ['POSTGRES_LOGGING'])
 
 
 '''
     POSTGRES Database
 '''
-engine = create_engine(db_url, echo=True)
+engine = create_engine(db_url)
 connection = engine.connect()
 
 
@@ -30,16 +39,10 @@ connect_results = {
     3: "Connection refused - bad username or password",
     4: "Connection refused - not authorised"
 }
-client = client.Client()
 
 
 def on_connect(client, userdata, flags, rc):
-    print(connect_results[rc])
-
-
-client.connect(broker, 1883)
-client.subscribe(topic)
-client.loop_start()
+    logger.info(connect_results[rc])
 
 
 '''
@@ -72,27 +75,66 @@ def retrieve_weather(location):
     return cut_json_object
 
 
-def update():
-    try:
-        query = text("select location, change from weather where id = :mac")
-        result = connection.execute(query, mac=device_mac).fetchone()
-        if result[1]:
-            weather_object = {
-                "mac": device_mac,
-                "data": retrieve_weather(result[0])
-            }
-            query2 = text("update weather set change = FALSE where id = :mac")
-            connection.execute(query2, mac=device_mac)
-            print('Publishing')
-            client.publish(os.environ['MQTT_TOPIC'], json.dumps(weather_object))
-            print('Success')
-    except TypeError:
-        pass
-
-
 '''
     Execution Area
 '''
-while True:
-    update()
-    time.sleep(15)
+
+
+def query_location():
+    weather_object = None
+    try:
+        logger.debug('Querying database')
+        query = text("select location, change from weather where id = :mac")
+        result = connection.execute(query, mac=device_mac).fetchone()
+        logger.debug('Location: ' + result[0] + ' Flag: ' + str(result[1]))
+        if result[1]:
+            logger.debug('Retrieving updated location')
+            try:
+                update_flag = text("update weather set change = FALSE where id = :mac")
+                weather_object = {
+                    "mac": device_mac,
+                    "data": retrieve_weather(result[0])
+                }
+                connection.execute(update_flag, mac=device_mac)
+            except TypeError:
+                logger.error('SQL error on flag update')
+        client.publish(os.environ['MQTT_TOPIC'], json.dumps(weather_object))
+    except TypeError:
+        logger.error('SQL error on change/location select')
+
+
+def main():
+    #   Logging setup
+    logging_level = logging.INFO
+    logger.setLevel(logging_level)
+    formatter = logging.Formatter('%(levelname)s %(asctime)s %(message)s')
+
+    stream_handler = logging.StreamHandler(sys.stdout)
+    stream_handler.setLevel(logging_level)
+    stream_handler.setFormatter(formatter)
+
+    file_handler = logging.FileHandler('./logs/{:%Y-%m-%d}.log'.format(datetime.now()))
+    file_handler.setLevel(logging_level)
+    file_handler.setFormatter(formatter)
+
+    logger.addHandler(stream_handler)
+    logger.addHandler(file_handler)
+
+    logger.info('Program Started...')
+    #   Start execution loop
+    while True:
+        query_location()
+        time.sleep(5)
+
+
+if __name__ == '__main__':
+    #   Broker connection
+    client = client.Client()
+    client.on_connect = on_connect
+    while client.connect(broker, 1883):
+        logger.warning('Broker failed to connect, attempting to reconnect in 4 seconds...')
+        time.sleep(4)
+    client.subscribe(topic)
+    client.loop_start()
+    #   Start main program
+    main()
