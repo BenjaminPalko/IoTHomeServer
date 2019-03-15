@@ -98,7 +98,8 @@ def query_location():
                 connection.execute(update_flag, mac=device_mac)
             except TypeError:
                 logger.error('SQL error on flag update')
-        client.publish(os.environ['MQTT_TOPIC'], json.dumps(weather_object))
+        logger.info('Sending location: ' + result[0])
+        client.publish(topic, json.dumps(weather_object))
     except TypeError:
         logger.error('SQL error on change/location select')
 
