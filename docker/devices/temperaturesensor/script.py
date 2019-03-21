@@ -48,8 +48,9 @@ def on_message(client, userdata, msg):
     logger.debug('Message received - ' + msg.payload)
     json_object = json.loads(msg.payload.decode())
     if json_object["mac"] == device_mac:
-        logger.debug('MAC recognized')
+        logger.info('MAC recognized')
         try:
+            logger.debug('Inserting temperature into database')
             temp_float = float(json_object['data']['temperature'])
             query = text("INSERT INTO temperature_sensor VALUES (:id, :temperature, CURRENT_TIMESTAMP)")
             connection.execute(query, id=str(device_mac), temperature=temp_float)
@@ -88,6 +89,7 @@ if __name__ == '__main__':
     #   Broker connection
     client = client.Client()
     client.on_connect = on_connect
+    client.on_message = on_message
     while client.connect(broker, 1883):
         logger.warning('Broker failed to connect, attempting to reconnect in 5 seconds...')
         time.sleep(5)
