@@ -19,6 +19,7 @@ broker = os.environ['MQTT_BROKER']
 topic = os.environ['MQTT_TOPIC']
 db_url = os.environ['POSTGRES_URL']
 db_logging = bool(os.environ['POSTGRES_LOGGING'])
+loop_delay = 3
 
 
 '''
@@ -84,7 +85,7 @@ def main():
     #   Start execution loop
     while True:
         check_value()
-        time.sleep(2)
+        time.sleep(loop_delay)
 
     client.loop_stop()
     logger.debug('Program exiting...')

@@ -19,6 +19,7 @@ broker = os.environ['MQTT_BROKER']
 topic = os.environ['MQTT_TOPIC']
 db_url = os.environ['POSTGRES_URL']
 db_logging = bool(os.environ['POSTGRES_LOGGING'])
+loop_delay = 3
 
 
 '''
@@ -71,7 +72,14 @@ def on_message(client, userdata, msg):
     json_object = json.loads(msg.payload)
     if json_object["mac"] == device_mac and "passcode" in json_object['data']:
         logger.debug('Correct mac - Querying database')
-        result_pin = query_pin()
+        # result_pin = query_pin()
+        try:
+            query = text("SELECT pin FROM doorlock WHERE id = :mac")
+            result = connection.execute(query, mac=device_mac)
+            result_pin = result.fetchone()[0]
+        except TypeError:
+            logger.error('Query error on pin retrieval from database')
+
         logger.info('Pin queried as ' + result_pin)
         json_string = validate_pin(result_pin, json_object["data"]["passcode"])
         logger.debug('Sending message - ' + json_string)
@@ -103,7 +111,7 @@ def main():
 
     client.loop_stop()
     logger.debug('Program exiting...')
-    time.sleep(3)
+    time.sleep(loop_delay)
 
 
 if __name__ == '__main__':

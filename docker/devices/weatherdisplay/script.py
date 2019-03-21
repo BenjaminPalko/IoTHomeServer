@@ -20,6 +20,7 @@ broker = os.environ['MQTT_BROKER']
 topic = os.environ['MQTT_TOPIC']
 db_url = os.environ['POSTGRES_URL']
 db_logging = bool(os.environ['POSTGRES_LOGGING'])
+loop_delay = 5
 
 
 '''
@@ -124,7 +125,7 @@ def main():
     #   Start execution loop
     while True:
         query_location()
-        time.sleep(5)
+        time.sleep(loop_delay)
 
 
 if __name__ == '__main__':
