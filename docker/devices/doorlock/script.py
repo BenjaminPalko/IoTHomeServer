@@ -118,6 +118,7 @@ if __name__ == '__main__':
     #   Broker connection
     client = client.Client()
     client.on_connect = on_connect
+    client.on_message = on_message
     while client.connect(broker, 1883):
         logger.warning('Broker failed to connect, attempting to reconnect in 4 seconds...')
         time.sleep(4)
